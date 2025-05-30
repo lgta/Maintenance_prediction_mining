@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Angel - Grupo 1">
+
+<title>DATASET OVERVIEW - Máquina de bolas</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="diccionario_molinos_detalle_files/libs/clipboard/clipboard.min.js"></script>
+<script src="diccionario_molinos_detalle_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="diccionario_molinos_detalle_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="diccionario_molinos_detalle_files/libs/quarto-html/popper.min.js"></script>
+<script src="diccionario_molinos_detalle_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="diccionario_molinos_detalle_files/libs/quarto-html/anchor.min.js"></script>
+<link href="diccionario_molinos_detalle_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="diccionario_molinos_detalle_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="diccionario_molinos_detalle_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="diccionario_molinos_detalle_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="diccionario_molinos_detalle_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#contexto-de-los-molinos-de-bolas-en-la-minería" id="toc-contexto-de-los-molinos-de-bolas-en-la-minería" class="nav-link active" data-scroll-target="#contexto-de-los-molinos-de-bolas-en-la-minería">1. CONTEXTO DE LOS MOLINOS DE BOLAS EN LA MINERÍA</a>
+  <ul class="collapse">
+  <li><a href="#qué-son-los-molinos-de-bolas" id="toc-qué-son-los-molinos-de-bolas" class="nav-link" data-scroll-target="#qué-son-los-molinos-de-bolas">1.1 ¿Qué son los Molinos de Bolas?</a></li>
+  <li><a href="#ubicación-en-el-proceso-de-chancado-molienda" id="toc-ubicación-en-el-proceso-de-chancado-molienda" class="nav-link" data-scroll-target="#ubicación-en-el-proceso-de-chancado-molienda">1.2 Ubicación en el Proceso de Chancado-Molienda</a></li>
+  <li><a href="#función-crítica-en-el-proceso-minero" id="toc-función-crítica-en-el-proceso-minero" class="nav-link" data-scroll-target="#función-crítica-en-el-proceso-minero">1.3 Función Crítica en el Proceso Minero</a></li>
+  <li><a href="#desafíos-operacionales-específicos" id="toc-desafíos-operacionales-específicos" class="nav-link" data-scroll-target="#desafíos-operacionales-específicos">1.4 Desafíos Operacionales Específicos</a></li>
+  </ul></li>
+  <li><a href="#resumen-ejecutivo" id="toc-resumen-ejecutivo" class="nav-link" data-scroll-target="#resumen-ejecutivo">2. RESUMEN EJECUTIVO</a>
+  <ul class="collapse">
+  <li><a href="#contexto-del-proyecto" id="toc-contexto-del-proyecto" class="nav-link" data-scroll-target="#contexto-del-proyecto">2.1 Contexto del Proyecto</a></li>
+  <li><a href="#dataset-generado---características-principales" id="toc-dataset-generado---características-principales" class="nav-link" data-scroll-target="#dataset-generado---características-principales">2.2 Dataset Generado - Características Principales</a></li>
+  </ul></li>
+  <li><a href="#arquitectura-del-proceso-de-chancado-molienda" id="toc-arquitectura-del-proceso-de-chancado-molienda" class="nav-link" data-scroll-target="#arquitectura-del-proceso-de-chancado-molienda">2. ARQUITECTURA DEL PROCESO DE CHANCADO-MOLIENDA</a>
+  <ul class="collapse">
+  <li><a href="#ubicación-en-el-proceso-minero" id="toc-ubicación-en-el-proceso-minero" class="nav-link" data-scroll-target="#ubicación-en-el-proceso-minero">2.1 Ubicación en el Proceso Minero</a></li>
+  <li><a href="#criticidad-operacional" id="toc-criticidad-operacional" class="nav-link" data-scroll-target="#criticidad-operacional">2.2 Criticidad Operacional</a></li>
+  <li><a href="#componentes-críticos-monitoreados" id="toc-componentes-críticos-monitoreados" class="nav-link" data-scroll-target="#componentes-críticos-monitoreados">2.3 Componentes Críticos Monitoreados</a></li>
+  </ul></li>
+  <li><a href="#diccionario-completo-de-variables-del-dataset" id="toc-diccionario-completo-de-variables-del-dataset" class="nav-link" data-scroll-target="#diccionario-completo-de-variables-del-dataset">3. DICCIONARIO COMPLETO DE VARIABLES DEL DATASET</a>
+  <ul class="collapse">
+  <li><a href="#variables-de-identificación-y-temporales" id="toc-variables-de-identificación-y-temporales" class="nav-link" data-scroll-target="#variables-de-identificación-y-temporales">3.1 VARIABLES DE IDENTIFICACIÓN Y TEMPORALES</a></li>
+  <li><a href="#variables-de-proceso-operacional" id="toc-variables-de-proceso-operacional" class="nav-link" data-scroll-target="#variables-de-proceso-operacional">3.2 VARIABLES DE PROCESO OPERACIONAL</a></li>
+  <li><a href="#variables-de-condition-monitoring" id="toc-variables-de-condition-monitoring" class="nav-link" data-scroll-target="#variables-de-condition-monitoring">3.3 VARIABLES DE CONDITION MONITORING</a></li>
+  <li><a href="#características-del-mineral" id="toc-características-del-mineral" class="nav-link" data-scroll-target="#características-del-mineral">3.4 CARACTERÍSTICAS DEL MINERAL</a></li>
+  <li><a href="#variables-de-estado-y-contexto" id="toc-variables-de-estado-y-contexto" class="nav-link" data-scroll-target="#variables-de-estado-y-contexto">3.5 VARIABLES DE ESTADO Y CONTEXTO</a></li>
+  <li><a href="#variables-target-para-machine-learning" id="toc-variables-target-para-machine-learning" class="nav-link" data-scroll-target="#variables-target-para-machine-learning">3.6 VARIABLES TARGET PARA MACHINE LEARNING</a></li>
+  <li><a href="#variables-derivadas-y-features-engineered" id="toc-variables-derivadas-y-features-engineered" class="nav-link" data-scroll-target="#variables-derivadas-y-features-engineered">3.7 VARIABLES DERIVADAS Y FEATURES ENGINEERED</a></li>
+  </ul></li>
+  <li><a href="#correlaciones-físicas-implementadas" id="toc-correlaciones-físicas-implementadas" class="nav-link" data-scroll-target="#correlaciones-físicas-implementadas">4. CORRELACIONES FÍSICAS IMPLEMENTADAS</a>
+  <ul class="collapse">
+  <li><a href="#ley-de-bond-fundamental" id="toc-ley-de-bond-fundamental" class="nav-link" data-scroll-target="#ley-de-bond-fundamental">4.1 Ley de Bond (Fundamental)</a></li>
+  <li><a href="#velocidad-crítica" id="toc-velocidad-crítica" class="nav-link" data-scroll-target="#velocidad-crítica">4.2 Velocidad Crítica</a></li>
+  <li><a href="#correlaciones-de-degradación" id="toc-correlaciones-de-degradación" class="nav-link" data-scroll-target="#correlaciones-de-degradación">4.3 Correlaciones de Degradación</a></li>
+  </ul></li>
+  <li><a href="#arquitectura-técnica-del-dataset" id="toc-arquitectura-técnica-del-dataset" class="nav-link" data-scroll-target="#arquitectura-técnica-del-dataset">5. ARQUITECTURA TÉCNICA DEL DATASET</a>
+  <ul class="collapse">
+  <li><a href="#estructura-y-dimensiones-reales" id="toc-estructura-y-dimensiones-reales" class="nav-link" data-scroll-target="#estructura-y-dimensiones-reales">5.1 Estructura y Dimensiones Reales</a></li>
+  <li><a href="#distribución-temporal-y-espacial" id="toc-distribución-temporal-y-espacial" class="nav-link" data-scroll-target="#distribución-temporal-y-espacial">5.2 Distribución Temporal y Espacial</a></li>
+  <li><a href="#calidad-de-datos" id="toc-calidad-de-datos" class="nav-link" data-scroll-target="#calidad-de-datos">5.3 Calidad de Datos</a></li>
+  </ul></li>
+  <li><a href="#casos-de-uso-específicos" id="toc-casos-de-uso-específicos" class="nav-link" data-scroll-target="#casos-de-uso-específicos">6. CASOS DE USO ESPECÍFICOS</a>
+  <ul class="collapse">
+  <li><a href="#predicción-de-fallas-críticas" id="toc-predicción-de-fallas-críticas" class="nav-link" data-scroll-target="#predicción-de-fallas-críticas">6.1 Predicción de Fallas Críticas</a></li>
+  <li><a href="#optimización-energética" id="toc-optimización-energética" class="nav-link" data-scroll-target="#optimización-energética">6.2 Optimización Energética</a></li>
+  </ul></li>
+  <li><a href="#metodología-de-modelado-recomendada" id="toc-metodología-de-modelado-recomendada" class="nav-link" data-scroll-target="#metodología-de-modelado-recomendada">7. METODOLOGÍA DE MODELADO RECOMENDADA</a>
+  <ul class="collapse">
+  <li><a href="#para-predicción-de-fallas" id="toc-para-predicción-de-fallas" class="nav-link" data-scroll-target="#para-predicción-de-fallas">7.1 Para Predicción de Fallas</a></li>
+  <li><a href="#para-optimización-energética" id="toc-para-optimización-energética" class="nav-link" data-scroll-target="#para-optimización-energética">7.2 Para Optimización Energética</a></li>
+  </ul></li>
+  <li><a href="#implementación-y-validación" id="toc-implementación-y-validación" class="nav-link" data-scroll-target="#implementación-y-validación">8. IMPLEMENTACIÓN Y VALIDACIÓN</a>
+  <ul class="collapse">
+  <li><a href="#pipeline-de-datos" id="toc-pipeline-de-datos" class="nav-link" data-scroll-target="#pipeline-de-datos">8.1 Pipeline de Datos</a></li>
+  <li><a href="#métricas-de-validación-del-realismo" id="toc-métricas-de-validación-del-realismo" class="nav-link" data-scroll-target="#métricas-de-validación-del-realismo">8.2 Métricas de Validación del Realismo</a></li>
+  </ul></li>
+  <li><a href="#próximos-pasos-y-recomendaciones" id="toc-próximos-pasos-y-recomendaciones" class="nav-link" data-scroll-target="#próximos-pasos-y-recomendaciones">9. PRÓXIMOS PASOS Y RECOMENDACIONES</a>
+  <ul class="collapse">
+  <li><a href="#modelado-inmediato" id="toc-modelado-inmediato" class="nav-link" data-scroll-target="#modelado-inmediato">9.1 Modelado Inmediato</a></li>
+  <li><a href="#validación-avanzada" id="toc-validación-avanzada" class="nav-link" data-scroll-target="#validación-avanzada">9.2 Validación Avanzada</a></li>
+  <li><a href="#expansión-del-dataset" id="toc-expansión-del-dataset" class="nav-link" data-scroll-target="#expansión-del-dataset">9.3 Expansión del Dataset</a></li>
+  </ul></li>
+  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones">10. CONCLUSIONES</a></li>
+  <li><a href="#anexo-resumen-completo-de-variables-del-dataset" id="toc-anexo-resumen-completo-de-variables-del-dataset" class="nav-link" data-scroll-target="#anexo-resumen-completo-de-variables-del-dataset">ANEXO: RESUMEN COMPLETO DE VARIABLES DEL DATASET</a>
+  <ul class="collapse">
+  <li><a href="#tabla-consolidada-de-las-64-variables" id="toc-tabla-consolidada-de-las-64-variables" class="nav-link" data-scroll-target="#tabla-consolidada-de-las-64-variables">Tabla Consolidada de las 64 Variables</a></li>
+  <li><a href="#categorización-por-uso-principal" id="toc-categorización-por-uso-principal" class="nav-link" data-scroll-target="#categorización-por-uso-principal">Categorización por Uso Principal</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">DATASET OVERVIEW - Máquina de bolas</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Angel - Grupo 1 </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="contexto-de-los-molinos-de-bolas-en-la-minería" class="level2">
+<h2 class="anchored" data-anchor-id="contexto-de-los-molinos-de-bolas-en-la-minería">1. CONTEXTO DE LOS MOLINOS DE BOLAS EN LA MINERÍA</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="./assets/molino-de-bolas-01.jpg" class="img-fluid"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><em>Molino de bolas</em></td>
+</tr>
+</tbody>
+</table>
+<section id="qué-son-los-molinos-de-bolas" class="level3">
+<h3 class="anchored" data-anchor-id="qué-son-los-molinos-de-bolas">1.1 ¿Qué son los Molinos de Bolas?</h3>
+<p>Los molinos de bolas son equipos cilíndricos horizontales rotatorios que constituyen la <strong>etapa final crítica del proceso de conminución</strong> en operaciones mineras. Estos equipos utilizan bolas de acero como medio de molienda para reducir el tamaño de partícula del mineral desde aproximadamente 12-15 mm hasta el rango ultrafino de 75-180 μm, tamaño óptimo para los procesos de concentración por flotación.</p>
+<section id="principio-de-funcionamiento" class="level4">
+<h4 class="anchored" data-anchor-id="principio-de-funcionamiento">Principio de Funcionamiento</h4>
+<ul>
+<li><strong>Mecanismo</strong>: Las bolas de acero (40-100 mm diámetro) dentro del cilindro rotatorio (5.5m × 7.0m) trituran el mineral mediante <strong>impacto</strong> (caída desde altura) y <strong>atrición</strong> (fricción entre bolas y mineral)</li>
+<li><strong>Velocidad crítica</strong>: Operan al 67-83% de la velocidad crítica (Vc = 42.3/√D metros)</li>
+<li><strong>Carga típica</strong>: 30-35% del volumen interno ocupado por bolas de acero</li>
+</ul>
+</section>
+<section id="especificaciones-técnicas-mineraperu" class="level4">
+<h4 class="anchored" data-anchor-id="especificaciones-técnicas-mineraperu">Especificaciones Técnicas MineraPeru</h4>
+<ul>
+<li><strong>Dimensiones</strong>: 5.5m diámetro × 7.0m largo</li>
+<li><strong>Potencia instalada</strong>: 1,500-2,200 kW por molino</li>
+<li><strong>Capacidad</strong>: 280-400 t/h por molino</li>
+<li><strong>Medio de molienda</strong>: Bolas de acero forjado de alta dureza</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="./assets/molino.jpg" class="img-fluid"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><em>Molino de bolas - interior</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ubicación-en-el-proceso-de-chancado-molienda" class="level3">
+<h3 class="anchored" data-anchor-id="ubicación-en-el-proceso-de-chancado-molienda">1.2 Ubicación en el Proceso de Chancado-Molienda</h3>
+<p>Los molinos de bolas operan en la <strong>etapa secundaria de molienda</strong>, formando parte integral del circuito de conminución:</p>
+<pre><code>PROCESO COMPLETO DE CONMINUCIÓN - MINERAPERU:
+
+[ETAPA PRIMARIA - CHANCADO]
+Mineral ROM (Run of Mine) → Chancadora Primaria de Mandíbulas (1500×2100mm)
+↓
+[ETAPA SECUNDARIA - CHANCADO]  
+Chancadoras Secundarias Cónicas (3 unidades) → Chancadoras Terciarias (2 unidades)
+↓
+[ETAPA PRIMARIA - MOLIENDA]
+Molino SAG Semi-Autógeno (12m × 15MW) - Reduce a 12-15mm
+↓
+[ETAPA SECUNDARIA - MOLIENDA] ← AQUÍ OPERAN LOS MOLINOS DE BOLAS
+6 Molinos de Bolas (5.5m × 7.0m) en PARALELO - Reducen a 75-180μm
+↓
+[CLASIFICACIÓN]
+Sistema de Hidrociclones (16 baterías × 12 ciclones) - Separación por tamaño
+↓
+[CONCENTRACIÓN]
+Circuito de Flotación → Concentrado de Cu-Mo + Relaves</code></pre>
+</section>
+<section id="función-crítica-en-el-proceso-minero" class="level3">
+<h3 class="anchored" data-anchor-id="función-crítica-en-el-proceso-minero">1.3 Función Crítica en el Proceso Minero</h3>
+<section id="objetivos-operacionales" class="level4">
+<h4 class="anchored" data-anchor-id="objetivos-operacionales">Objetivos Operacionales</h4>
+<ol type="1">
+<li><strong>Reducción de tamaño</strong>: De 12-15mm (salida SAG) a 120±20μm (P80 objetivo)</li>
+<li><strong>Liberación mineral</strong>: Separar minerales valiosos (Cu, Mo) de ganga</li>
+<li><strong>Preparación para flotación</strong>: Tamaño óptimo para recuperación metalúrgica máxima</li>
+</ol>
+</section>
+<section id="impacto-en-la-cadena-de-valor" class="level4">
+<h4 class="anchored" data-anchor-id="impacto-en-la-cadena-de-valor">Impacto en la Cadena de Valor</h4>
+<ul>
+<li><strong>Upstream</strong>: Recibe todo el material procesado por el molino SAG</li>
+<li><strong>Downstream</strong>: Determina la <strong>recuperación metalúrgica</strong> en flotación (85.4% actual vs 91% target)</li>
+<li><strong>Energético</strong>: Consume 35% de la energía total de la concentradora</li>
+<li><strong>Económico</strong>: Cada 1% mejora en P80 = +US$14.5M anuales en ingresos</li>
+</ul>
+</section>
+</section>
+<section id="desafíos-operacionales-específicos" class="level3">
+<h3 class="anchored" data-anchor-id="desafíos-operacionales-específicos">1.4 Desafíos Operacionales Específicos</h3>
+<section id="problemática-actual-en-mineraperu" class="level4">
+<h4 class="anchored" data-anchor-id="problemática-actual-en-mineraperu">Problemática Actual en MineraPeru</h4>
+<ol type="1">
+<li><strong>Eficiencia subóptima</strong>: 76.3% vs 82.1% benchmark industria</li>
+<li><strong>Consumo energético elevado</strong>: 34.7 kWh/t vs estándar sectorial<br>
+</li>
+<li><strong>Downtime no planificado</strong>: 17.2% (incremento 23% en 2 años)</li>
+<li><strong>Variabilidad granulométrica</strong>: σ = 28.4% vs target</li>
+</ol>
+</section>
+<section id="consecuencias-económicas" class="level4">
+<h4 class="anchored" data-anchor-id="consecuencias-económicas">Consecuencias Económicas</h4>
+<ul>
+<li><strong>Costo oportunidad</strong>: US$25,000-45,000 por hora de parada</li>
+<li><strong>Sobrecosto energético</strong>: US$2.8M anuales por ineficiencia</li>
+<li><strong>Mantenimiento correctivo</strong>: US$42.3M anuales (21.5% del presupuesto)</li>
+<li><strong>Pérdida de throughput</strong>: 14,500 t/mes bajo capacidad nominal</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="resumen-ejecutivo" class="level2">
+<h2 class="anchored" data-anchor-id="resumen-ejecutivo">2. RESUMEN EJECUTIVO</h2>
+<section id="contexto-del-proyecto" class="level3">
+<h3 class="anchored" data-anchor-id="contexto-del-proyecto">2.1 Contexto del Proyecto</h3>
+<p>MineraPeru enfrenta desafíos críticos en la optimización de sus 6 molinos de bolas, equipos fundamentales que procesan 2,100-2,400 t/h de mineral y representan el 35% del consumo energético total de la planta. El objetivo es desarrollar un sistema predictivo para anticipar fallas críticas y optimizar el consumo energético mediante técnicas avanzadas de machine learning.</p>
+</section>
+<section id="dataset-generado---características-principales" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-generado---características-principales">2.2 Dataset Generado - Características Principales</h3>
+<ul>
+<li><strong>Registros totales</strong>: 131,478 observaciones</li>
+<li><strong>Variables</strong>: 64 campos especializados</li>
+<li><strong>Período temporal</strong>: 2.5 años (2023-2025)</li>
+<li><strong>Molinos monitoreados</strong>: 6 unidades (M1-M6)</li>
+<li><strong>Frecuencia de muestreo</strong>: Aproximadamente cada 12-16 horas</li>
+<li><strong>Eventos de falla</strong>: ~4.2% de registros con fallas en ventana de 7 días</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="arquitectura-del-proceso-de-chancado-molienda" class="level2">
+<h2 class="anchored" data-anchor-id="arquitectura-del-proceso-de-chancado-molienda">2. ARQUITECTURA DEL PROCESO DE CHANCADO-MOLIENDA</h2>
+<section id="ubicación-en-el-proceso-minero" class="level3">
+<h3 class="anchored" data-anchor-id="ubicación-en-el-proceso-minero">2.1 Ubicación en el Proceso Minero</h3>
+<p>Los molinos de bolas operan en la etapa final del circuito de molienda, recibiendo material del molino SAG y enviando producto clasificado a la flotación:</p>
+<pre><code>Chancado Primario → Chancado Secundario → Chancado Terciario → 
+Molino SAG → MOLINOS DE BOLAS → Hidrociclones → Flotación</code></pre>
+</section>
+<section id="criticidad-operacional" class="level3">
+<h3 class="anchored" data-anchor-id="criticidad-operacional">2.2 Criticidad Operacional</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Aspecto</th>
+<th>Impacto</th>
+<th>Métrica</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Throughput</strong></td>
+<td>Capacidad total de planta</td>
+<td>2,100-2,400 t/h</td>
+</tr>
+<tr class="even">
+<td><strong>Disponibilidad</strong></td>
+<td>Una falla reduce capacidad</td>
+<td>~17% (1/6 molinos)</td>
+</tr>
+<tr class="odd">
+<td><strong>Energía</strong></td>
+<td>Consumo energético crítico</td>
+<td>35% del total de planta</td>
+</tr>
+<tr class="even">
+<td><strong>Costo por parada</strong></td>
+<td>Pérdida por hora no programada</td>
+<td>US$25,000-45,000</td>
+</tr>
+<tr class="odd">
+<td><strong>Mantenimiento</strong></td>
+<td>Costos anuales</td>
+<td>US$7M repuestos + mano obra</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="componentes-críticos-monitoreados" class="level3">
+<h3 class="anchored" data-anchor-id="componentes-críticos-monitoreados">2.3 Componentes Críticos Monitoreados</h3>
+<section id="estructura-principal" class="level4">
+<h4 class="anchored" data-anchor-id="estructura-principal">Estructura Principal</h4>
+<ul>
+<li><strong>Shell/Casco</strong>: Cilindro rotatorio 5.5m × 7.0m con revestimientos internos</li>
+<li><strong>Cojinetes principales</strong>: Rodamientos de alimentación y descarga</li>
+<li><strong>Sistema de transmisión</strong>: Motor 1,500-2,200 kW + reductor + piñón</li>
+</ul>
+</section>
+<section id="sistemas-auxiliares-críticos" class="level4">
+<h4 class="anchored" data-anchor-id="sistemas-auxiliares-críticos">Sistemas Auxiliares Críticos</h4>
+<ul>
+<li><strong>Lubricación</strong>: Sistema de aceite para cojinetes (presión 2.0-3.5 bar)</li>
+<li><strong>Alimentación</strong>: Control de flujo de mineral y agua de proceso</li>
+<li><strong>Descarga</strong>: Sistema de overflow hacia clasificación</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="diccionario-completo-de-variables-del-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="diccionario-completo-de-variables-del-dataset">3. DICCIONARIO COMPLETO DE VARIABLES DEL DATASET</h2>
+<section id="variables-de-identificación-y-temporales" class="level3">
+<h3 class="anchored" data-anchor-id="variables-de-identificación-y-temporales">3.1 VARIABLES DE IDENTIFICACIÓN Y TEMPORALES</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 12%">
+<col style="width: 18%">
+<col style="width: 26%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Tipo</th>
+<th>Valores</th>
+<th>Descripción</th>
+<th>Criticidad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>timestamp</code></td>
+<td>datetime</td>
+<td>2023-01-01 a 2025-06-30</td>
+<td>Marca temporal de la observación</td>
+<td><strong>CRÍTICA</strong></td>
+</tr>
+<tr class="even">
+<td><code>molino_id</code></td>
+<td>categorical</td>
+<td>M1, M2, M3, M4, M5, M6</td>
+<td>Identificador único del molino</td>
+<td><strong>CRÍTICA</strong></td>
+</tr>
+<tr class="odd">
+<td><code>turno</code></td>
+<td>categorical</td>
+<td>A, B, C</td>
+<td>Turno operativo (A: 00-08h, B: 08-16h, C: 16-24h)</td>
+<td><strong>MEDIA</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Análisis real del dataset:</strong> - Distribución temporal: Cobertura completa del período 2023-2025 - Representación equitativa de los 6 molinos - Balance entre turnos A, B, C</p>
+</section>
+<section id="variables-de-proceso-operacional" class="level3">
+<h3 class="anchored" data-anchor-id="variables-de-proceso-operacional">3.2 VARIABLES DE PROCESO OPERACIONAL</h3>
+<section id="variables-controlables-optimización" class="level4">
+<h4 class="anchored" data-anchor-id="variables-controlables-optimización">3.2.1 Variables Controlables (Optimización)</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 10%">
+<col style="width: 20%">
+<col style="width: 17%">
+<col style="width: 26%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Unidad</th>
+<th>Rango Observado</th>
+<th>Rango Óptimo</th>
+<th>Descripción Técnica</th>
+<th>Impacto</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>feed_rate</code></td>
+<td>t/h</td>
+<td>180-350</td>
+<td>250-320</td>
+<td>Tonelaje de alimentación de mineral al molino</td>
+<td><strong>CRÍTICO</strong> - Determina throughput y consumo energético</td>
+</tr>
+<tr class="even">
+<td><code>velocidad_rotacion</code></td>
+<td>RPM</td>
+<td>12.5-17.5</td>
+<td>13.5-15.0</td>
+<td>Velocidad de rotación del cilindro del molino</td>
+<td><strong>ALTO</strong> - Afecta intensidad de molienda</td>
+</tr>
+<tr class="odd">
+<td><code>velocidad_porcentaje_critica</code></td>
+<td>%</td>
+<td>70-85</td>
+<td>74-78</td>
+<td>Porcentaje de la velocidad crítica de operación</td>
+<td><strong>ALTO</strong> - Determina régimen de molienda</td>
+</tr>
+<tr class="even">
+<td><code>nivel_carga_bolas</code></td>
+<td>%</td>
+<td>28-36</td>
+<td>30-34</td>
+<td>Porcentaje del volumen interno ocupado por bolas</td>
+<td><strong>ALTO</strong> - Balance impacto vs capacidad</td>
+</tr>
+<tr class="odd">
+<td><code>densidad_pulpa</code></td>
+<td>% sólidos</td>
+<td>68-78</td>
+<td>70-75</td>
+<td>Concentración de sólidos en la pulpa</td>
+<td><strong>MEDIO</strong> - Afecta reología</td>
+</tr>
+<tr class="even">
+<td><code>agua_adicionada</code></td>
+<td>m³/h</td>
+<td>25-65</td>
+<td>35-55</td>
+<td>Caudal de agua fresca adicionada</td>
+<td><strong>MEDIO</strong> - Control de densidad</td>
+</tr>
+<tr class="odd">
+<td><code>presion_ciclones</code></td>
+<td>kPa</td>
+<td>60-140</td>
+<td>80-120</td>
+<td>Presión de alimentación a hidrociclones</td>
+<td><strong>ALTO</strong> - Determina corte de clasificación</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="variables-de-performance" class="level4">
+<h4 class="anchored" data-anchor-id="variables-de-performance">3.2.2 Variables de Performance</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 17%">
+<col style="width: 15%">
+<col style="width: 17%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Unidad</th>
+<th>Rango</th>
+<th>Target</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>consumo_energetico_especifico</code></td>
+<td>kWh/t</td>
+<td>8-18</td>
+<td>&lt;12</td>
+<td>Energía consumida por tonelada procesada</td>
+</tr>
+<tr class="even">
+<td><code>throughput_real</code></td>
+<td>t/h</td>
+<td>120-400</td>
+<td>&gt;280</td>
+<td>Producción real efectiva del molino</td>
+</tr>
+<tr class="odd">
+<td><code>eficiencia_molienda</code></td>
+<td>%</td>
+<td>65-85</td>
+<td>&gt;78</td>
+<td>Eficiencia vs condiciones teóricas ideales</td>
+</tr>
+<tr class="even">
+<td><code>granulometria_producto_p80</code></td>
+<td>μm</td>
+<td>75-180</td>
+<td>120±15</td>
+<td>Tamaño donde pasa el 80% del producto</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="variables-de-condition-monitoring" class="level3">
+<h3 class="anchored" data-anchor-id="variables-de-condition-monitoring">3.3 VARIABLES DE CONDITION MONITORING</h3>
+<section id="sensores-de-vibración-predicción-de-fallas" class="level4">
+<h4 class="anchored" data-anchor-id="sensores-de-vibración-predicción-de-fallas">3.3.1 Sensores de Vibración (Predicción de Fallas)</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 27%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Unidad</th>
+<th>Normal</th>
+<th>Alarma</th>
+<th>Descripción Técnica</th>
+<th>Patología Detectada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>vibracion_cojinete_feed_h</code></td>
+<td>mm/s</td>
+<td>1.5-4.5</td>
+<td>&gt;8.0</td>
+<td>Vibración horizontal en cojinete de alimentación</td>
+<td>Desbalance, desalineación</td>
+</tr>
+<tr class="even">
+<td><code>vibracion_cojinete_feed_v</code></td>
+<td>mm/s</td>
+<td>1.2-4.0</td>
+<td>&gt;7.5</td>
+<td>Vibración vertical en cojinete de alimentación</td>
+<td>Deterioro de rodamientos</td>
+</tr>
+<tr class="odd">
+<td><code>vibracion_cojinete_discharge_h</code></td>
+<td>mm/s</td>
+<td>1.8-5.0</td>
+<td>&gt;9.0</td>
+<td>Vibración horizontal en cojinete de descarga</td>
+<td>Desbalance, mayor carga</td>
+</tr>
+<tr class="even">
+<td><code>vibracion_cojinete_discharge_v</code></td>
+<td>mm/s</td>
+<td>1.5-4.5</td>
+<td>&gt;8.5</td>
+<td>Vibración vertical en cojinete de descarga</td>
+<td>Deterioro rodamientos</td>
+</tr>
+<tr class="odd">
+<td><code>vibracion_shell_h</code></td>
+<td>mm/s</td>
+<td>2.0-6.0</td>
+<td>&gt;12.0</td>
+<td>Vibración horizontal del casco del molino</td>
+<td>Estado liners, balance carga</td>
+</tr>
+<tr class="even">
+<td><code>vibracion_shell_v</code></td>
+<td>mm/s</td>
+<td>2.2-6.5</td>
+<td>&gt;13.0</td>
+<td>Vibración vertical del casco</td>
+<td>Desbalance de carga</td>
+</tr>
+<tr class="odd">
+<td><code>vibracion_pinion</code></td>
+<td>mm/s</td>
+<td>3.0-8.0</td>
+<td>&gt;15.0</td>
+<td>Vibración del piñón de transmisión</td>
+<td>Problemas de engranaje</td>
+</tr>
+<tr class="even">
+<td><code>vibracion_gearbox</code></td>
+<td>mm/s</td>
+<td>2.5-7.0</td>
+<td>&gt;12.0</td>
+<td>Vibración de la caja reductora</td>
+<td>Desgaste interno</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Frecuencias Características de Falla (Literatura Técnica):</strong></p>
+<ul>
+<li><strong>BPFO</strong> (Ball Pass Frequency Outer): Paso de bolas por pista exterior</li>
+<li><strong>BPFI</strong> (Ball Pass Frequency Inner): Paso de bolas por pista interior</li>
+<li><strong>BSF</strong> (Ball Spin Frequency): Frecuencia de giro de bolas</li>
+<li><strong>FTF</strong> (Fundamental Train Frequency): Frecuencia del separador</li>
+</ul>
+</section>
+<section id="sensores-de-temperatura" class="level4">
+<h4 class="anchored" data-anchor-id="sensores-de-temperatura">3.3.2 Sensores de Temperatura</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Unidad</th>
+<th>Normal</th>
+<th>Alarma</th>
+<th>Descripción</th>
+<th>Indicador de</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>temp_cojinete_feed</code></td>
+<td>°C</td>
+<td>40-65</td>
+<td>&gt;80</td>
+<td>Temperatura del cojinete de alimentación</td>
+<td>Lubricación, fricción</td>
+</tr>
+<tr class="even">
+<td><code>temp_cojinete_discharge</code></td>
+<td>°C</td>
+<td>42-68</td>
+<td>&gt;82</td>
+<td>Temperatura del cojinete de descarga</td>
+<td>Estado rodamientos</td>
+</tr>
+<tr class="odd">
+<td><code>temp_aceite_lubricacion</code></td>
+<td>°C</td>
+<td>45-60</td>
+<td>&gt;75</td>
+<td>Temperatura del aceite de lubricación</td>
+<td>Calidad lubricación</td>
+</tr>
+<tr class="even">
+<td><code>temp_motor_principal</code></td>
+<td>°C</td>
+<td>50-75</td>
+<td>&gt;90</td>
+<td>Temperatura de devanados del motor</td>
+<td>Carga eléctrica</td>
+</tr>
+<tr class="odd">
+<td><code>temp_gearbox</code></td>
+<td>°C</td>
+<td>45-65</td>
+<td>&gt;80</td>
+<td>Temperatura interna del reductor</td>
+<td>Fricción interna</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="variables-eléctricas" class="level4">
+<h4 class="anchored" data-anchor-id="variables-eléctricas">3.3.3 Variables Eléctricas</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 21%">
+<col style="width: 20%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Unidad</th>
+<th>Rango Normal</th>
+<th>Descripción</th>
+<th>Uso en Diagnóstico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>corriente_motor</code></td>
+<td>A</td>
+<td>400-900</td>
+<td>Corriente consumida por motor principal</td>
+<td>Indicador de carga mecánica</td>
+</tr>
+<tr class="even">
+<td><code>potencia_activa</code></td>
+<td>kW</td>
+<td>800-2200</td>
+<td>Potencia real consumida</td>
+<td>Eficiencia energética</td>
+</tr>
+<tr class="odd">
+<td><code>voltaje_motor</code></td>
+<td>V</td>
+<td>4140-4180</td>
+<td>Voltaje de alimentación</td>
+<td>Calidad suministro eléctrico</td>
+</tr>
+<tr class="even">
+<td><code>factor_potencia</code></td>
+<td>-</td>
+<td>0.87-0.93</td>
+<td>Relación potencia activa/aparente</td>
+<td>Eficiencia eléctrica</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sistema-de-lubricación" class="level4">
+<h4 class="anchored" data-anchor-id="sistema-de-lubricación">3.3.4 Sistema de Lubricación</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 18%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Unidad</th>
+<th>Normal</th>
+<th>Crítico</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>presion_aceite_principal</code></td>
+<td>bar</td>
+<td>2.0-3.5</td>
+<td>&lt;1.5</td>
+<td>Presión del sistema de lubricación</td>
+</tr>
+<tr class="even">
+<td><code>flujo_aceite</code></td>
+<td>L/min</td>
+<td>80-150</td>
+<td>&lt;60</td>
+<td>Caudal de aceite circulante</td>
+</tr>
+<tr class="odd">
+<td><code>nivel_tanque_aceite</code></td>
+<td>%</td>
+<td>40-90</td>
+<td>&lt;30</td>
+<td>Nivel en tanque principal</td>
+</tr>
+<tr class="even">
+<td><code>calidad_aceite_ppm</code></td>
+<td>ppm</td>
+<td>0-15</td>
+<td>&gt;25</td>
+<td>Partículas contaminantes</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="características-del-mineral" class="level3">
+<h3 class="anchored" data-anchor-id="características-del-mineral">3.4 CARACTERÍSTICAS DEL MINERAL</h3>
+<section id="propiedades-físicas" class="level4">
+<h4 class="anchored" data-anchor-id="propiedades-físicas">3.4.1 Propiedades Físicas</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 22%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Unidad</th>
+<th>Rango</th>
+<th>Descripción</th>
+<th>Impacto en Molienda</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>work_index_bond</code></td>
+<td>kWh/t</td>
+<td>10-20</td>
+<td>Índice de trabajo de Bond</td>
+<td><strong>CRÍTICO</strong> - Determina energía requerida</td>
+</tr>
+<tr class="even">
+<td><code>dureza_mineral</code></td>
+<td>Mohs</td>
+<td>3.5-6.5</td>
+<td>Dureza en escala de Mohs</td>
+<td><strong>ALTO</strong> - Afecta desgaste y energía</td>
+</tr>
+<tr class="odd">
+<td><code>humedad_mineral</code></td>
+<td>%</td>
+<td>5-11</td>
+<td>Contenido de humedad natural</td>
+<td><strong>BAJO</strong> - Afecta manejo</td>
+</tr>
+<tr class="even">
+<td><code>granulometria_feed_p80</code></td>
+<td>μm</td>
+<td>9000-14000</td>
+<td>Tamaño 80% pasante alimentación</td>
+<td><strong>ALTO</strong> - Determina trabajo requerido</td>
+</tr>
+<tr class="odd">
+<td><code>densidad_mineral</code></td>
+<td>t/m³</td>
+<td>2.7-3.8</td>
+<td>Densidad específica</td>
+<td><strong>MEDIO</strong> - Afecta comportamiento pulpa</td>
+</tr>
+<tr class="even">
+<td><code>contenido_arcillas</code></td>
+<td>%</td>
+<td>0-12</td>
+<td>Porcentaje de minerales arcillosos</td>
+<td><strong>MEDIO</strong> - Afecta reología</td>
+</tr>
+<tr class="odd">
+<td><code>abrasividad_ai</code></td>
+<td>-</td>
+<td>0.15-0.65</td>
+<td>Índice de abrasividad</td>
+<td><strong>ALTO</strong> - Desgaste medios molienda</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="variables-de-estado-y-contexto" class="level3">
+<h3 class="anchored" data-anchor-id="variables-de-estado-y-contexto">3.5 VARIABLES DE ESTADO Y CONTEXTO</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 21%">
+<col style="width: 18%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Unidad</th>
+<th>Rango</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>nivel_desgaste_liners</code></td>
+<td>%</td>
+<td>0-80</td>
+<td>Porcentaje de desgaste de revestimientos</td>
+</tr>
+<tr class="even">
+<td><code>horas_operacion_acumuladas</code></td>
+<td>h</td>
+<td>0-22000</td>
+<td>Horas desde último mantenimiento mayor</td>
+</tr>
+<tr class="odd">
+<td><code>ciclos_arranque_parada</code></td>
+<td>count</td>
+<td>0-5</td>
+<td>Número de arranques/paradas por período</td>
+</tr>
+<tr class="even">
+<td><code>carga_circulante</code></td>
+<td>%</td>
+<td>150-400</td>
+<td>Porcentaje de carga circulante en circuito</td>
+</tr>
+<tr class="odd">
+<td><code>eficiencia_clasificacion</code></td>
+<td>%</td>
+<td>45-75</td>
+<td>Eficiencia de los hidrociclones</td>
+</tr>
+<tr class="even">
+<td><code>temperatura_ambiente</code></td>
+<td>°C</td>
+<td>15-35</td>
+<td>Temperatura ambiente (sierra peruana)</td>
+</tr>
+<tr class="odd">
+<td><code>humedad_relativa</code></td>
+<td>%</td>
+<td>40-85</td>
+<td>Humedad relativa del ambiente</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="variables-target-para-machine-learning" class="level3">
+<h3 class="anchored" data-anchor-id="variables-target-para-machine-learning">3.6 VARIABLES TARGET PARA MACHINE LEARNING</h3>
+<section id="predicción-de-fallas" class="level4">
+<h4 class="anchored" data-anchor-id="predicción-de-fallas">3.6.1 Predicción de Fallas</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 9%">
+<col style="width: 29%">
+<col style="width: 20%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Tipo</th>
+<th>Distribución Real</th>
+<th>Descripción</th>
+<th>Uso en Modelo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>falla_en_7d</code></td>
+<td>boolean</td>
+<td>~4.2% True</td>
+<td>Ocurrirá falla en próximos 7 días</td>
+<td><strong>Target principal</strong> clasificación</td>
+</tr>
+<tr class="even">
+<td><code>falla_en_14d</code></td>
+<td>boolean</td>
+<td>~6.8% True</td>
+<td>Ocurrirá falla en próximos 14 días</td>
+<td>Target secundario</td>
+</tr>
+<tr class="odd">
+<td><code>falla_en_30d</code></td>
+<td>boolean</td>
+<td>~11.5% True</td>
+<td>Ocurrirá falla en próximos 30 días</td>
+<td>Target largo plazo</td>
+</tr>
+<tr class="even">
+<td><code>tipo_falla</code></td>
+<td>categorical</td>
+<td>Ver distribución abajo</td>
+<td>Tipo específico de falla</td>
+<td><strong>Target</strong> clasificación multiclase</td>
+</tr>
+<tr class="odd">
+<td><code>severidad_falla</code></td>
+<td>ordinal</td>
+<td>1-3</td>
+<td>Severidad [1=menor, 2=moderada, 3=crítica]</td>
+<td>Priorización mantenimiento</td>
+</tr>
+<tr class="even">
+<td><code>dias_hasta_falla</code></td>
+<td>float</td>
+<td>0-365</td>
+<td>Días hasta próxima falla</td>
+<td><strong>Target</strong> regresión</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Distribución Real de Tipos de Falla (en muestra analizada):</strong> - <code>bearing_feed</code>: 57.1% (fallas en cojinete alimentación) - <code>bearing_discharge</code>: 35.7% (fallas en cojinete descarga)<br>
+- <code>lubrication</code>: 2.4% (fallas sistema lubricación) - <code>liner_wear</code>: 4.8% (desgaste excesivo de liners)</p>
+</section>
+<section id="lógica-detallada-de-variables-target" class="level4">
+<h4 class="anchored" data-anchor-id="lógica-detallada-de-variables-target">3.6.2 Lógica Detallada de Variables Target</h4>
+<section id="a.-variables-binarias-de-ventana-temporal-falla_en_7d-falla_en_14d-falla_en_30d" class="level5">
+<h5 class="anchored" data-anchor-id="a.-variables-binarias-de-ventana-temporal-falla_en_7d-falla_en_14d-falla_en_30d"><strong>A. Variables Binarias de Ventana Temporal (<code>falla_en_7d</code>, <code>falla_en_14d</code>, <code>falla_en_30d</code>)</strong></h5>
+<p>Estas variables funcionan como <strong>“ventana deslizante hacia el futuro”</strong>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Para cada timestamp, pregunta:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "¿Ocurrirá una falla en los próximos N días desde este momento?"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (failure_time <span class="op">-</span> current_timestamp).days <span class="op">&lt;=</span> N:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    falla_en_Nd <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    falla_en_Nd <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Ejemplo temporal práctico:</strong></p>
+<pre><code>Timeline de eventos:
+2024-01-01 00:00 → falla_en_7d = False (falla programada en 10 días)
+2024-01-04 00:00 → falla_en_7d = True  (falla programada en 7 días)
+2024-01-05 00:00 → falla_en_7d = True  (falla programada en 6 días)
+2024-01-10 00:00 → falla_en_7d = True  (falla programada en 1 día)
+2024-01-11 12:00 → FALLA OCURRE
+2024-01-12 00:00 → falla_en_7d = False (no hay fallas próximas)</code></pre>
+<p><strong>Características clave:</strong> - <strong>Independencia</strong>: Cada registro es independiente - <strong>Balance</strong>: ~4.2% de registros True para ventana 7 días - <strong>Múltiples fallas</strong>: Un molino puede tener varias fallas programadas</p>
+</section>
+<section id="b.-variable-de-tiempo-hasta-falla-dias_hasta_falla" class="level5">
+<h5 class="anchored" data-anchor-id="b.-variable-de-tiempo-hasta-falla-dias_hasta_falla"><strong>B. Variable de Tiempo Hasta Falla (<code>dias_hasta_falla</code>)</strong></h5>
+<p>Esta variable <strong>se “reinicia” después de cada falla</strong> buscando automáticamente la siguiente:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_days_to_failure(timestamp, all_future_failures):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Para cada timestamp, encuentra la PRÓXIMA falla en el futuro</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">    y calcula cuántos días faltan</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    future_failures <span class="op">=</span> [f <span class="cf">for</span> f <span class="kw">in</span> all_future_failures <span class="cf">if</span> f.time <span class="op">&gt;</span> timestamp]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> future_failures:</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        next_failure <span class="op">=</span> <span class="bu">min</span>(future_failures, key<span class="op">=</span><span class="kw">lambda</span> x: x.time)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        days_until <span class="op">=</span> (next_failure.time <span class="op">-</span> timestamp).days</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> days_until</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">365</span>  <span class="co"># Si no hay fallas próximas, valor máximo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Ejemplo con múltiples fallas programadas:</strong></p>
+<pre><code>Timeline con 2 fallas para un molino:
+- Falla A: 2024-01-15 (bearing_feed)
+- Falla B: 2024-03-20 (liner_wear)
+
+2024-01-01 → dias_hasta_falla = 14  (hacia Falla A)
+2024-01-10 → dias_hasta_falla = 5   (hacia Falla A)
+2024-01-15 → FALLA A OCURRE
+2024-01-16 → dias_hasta_falla = 63  (hacia Falla B - SE REINICIA)
+2024-02-15 → dias_hasta_falla = 33  (hacia Falla B)
+2024-03-20 → FALLA B OCURRE
+2024-03-21 → dias_hasta_falla = 365 (no hay más fallas programadas)</code></pre>
+<p><strong>Comportamiento automático:</strong> - <strong>Reinicio</strong>: Después de cada falla, busca automáticamente la siguiente - <strong>Múltiples tipos</strong>: No distingue tipos de falla, siempre busca la más cercana - <strong>Valor máximo</strong>: 365 días cuando no hay fallas futuras programadas</p>
+</section>
+<section id="c.-variable-de-tipo-de-falla-tipo_falla" class="level5">
+<h5 class="anchored" data-anchor-id="c.-variable-de-tipo-de-falla-tipo_falla"><strong>C. Variable de Tipo de Falla (<code>tipo_falla</code>)</strong></h5>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solo se activa cuando hay falla inminente</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> falla_en_30d <span class="op">==</span> <span class="va">True</span>:</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    tipo_falla <span class="op">=</span> failure_type  <span class="co"># bearing_feed, bearing_discharge, etc.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    tipo_falla <span class="op">=</span> <span class="st">'normal'</span>      <span class="co"># Operación normal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Distribución por tipo:</strong> - <strong>Rodamientos</strong> (92.8%): bearing_feed + bearing_discharge - <strong>Sistemas auxiliares</strong> (7.2%): lubrication + liner_wear</p>
+</section>
+<section id="d.-verificación-en-el-dataset-real" class="level5">
+<h5 class="anchored" data-anchor-id="d.-verificación-en-el-dataset-real"><strong>D. Verificación en el Dataset Real</strong></h5>
+<p>Para verificar esta lógica en el dataset generado:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar y filtrar por molino</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'molinos_mineraperu_dataset.csv'</span>, parse_dates<span class="op">=</span>[<span class="st">'timestamp'</span>])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>molino_data <span class="op">=</span> df[df[<span class="st">'molino_id'</span>] <span class="op">==</span> <span class="st">'M1'</span>].sort_values(<span class="st">'timestamp'</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Encontrar transiciones de falla</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>falla_events <span class="op">=</span> molino_data[molino_data[<span class="st">'falla_en_7d'</span>] <span class="op">==</span> <span class="va">True</span>]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar reinicio de dias_hasta_falla</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, event <span class="kw">in</span> falla_events.head(<span class="dv">2</span>).iterrows():</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    timestamp <span class="op">=</span> event[<span class="st">'timestamp'</span>]</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    dias_antes <span class="op">=</span> event[<span class="st">'dias_hasta_falla'</span>]</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ver días después del evento</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    after_event <span class="op">=</span> molino_data[molino_data[<span class="st">'timestamp'</span>] <span class="op">&gt;</span> timestamp].head(<span class="dv">1</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> after_event.empty:</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        dias_despues <span class="op">=</span> after_event[<span class="st">'dias_hasta_falla'</span>].iloc[<span class="dv">0</span>]</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Antes: </span><span class="sc">{</span>dias_antes<span class="sc">}</span><span class="ss"> días → Después: </span><span class="sc">{</span>dias_despues<span class="sc">}</span><span class="ss"> días"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="implicaciones-para-machine-learning" class="level4">
+<h4 class="anchored" data-anchor-id="implicaciones-para-machine-learning">3.6.3 Implicaciones para Machine Learning</h4>
+<section id="para-modelos-de-clasificación" class="level5">
+<h5 class="anchored" data-anchor-id="para-modelos-de-clasificación"><strong>Para Modelos de Clasificación:</strong></h5>
+<ul>
+<li><strong>Target</strong>: <code>falla_en_7d</code> (binario) o <code>tipo_falla</code> (multiclase)</li>
+<li><strong>Características</strong>: Desbalanceado (4.2% positivos)</li>
+<li><strong>Ventana de acción</strong>: 7 días para intervención preventiva</li>
+</ul>
+</section>
+<section id="para-modelos-de-regresión" class="level5">
+<h5 class="anchored" data-anchor-id="para-modelos-de-regresión"><strong>Para Modelos de Regresión:</strong></h5>
+<ul>
+<li><strong>Target</strong>: <code>dias_hasta_falla</code> (continuo 0-365)</li>
+<li><strong>Interpretación</strong>: “Tiempo estimado hasta próximo mantenimiento”</li>
+<li><strong>Planificación</strong>: Permite programación optimizada de recursos</li>
+</ul>
+</section>
+<section id="para-sistemas-híbridos" class="level5">
+<h5 class="anchored" data-anchor-id="para-sistemas-híbridos"><strong>Para Sistemas Híbridos:</strong></h5>
+<ul>
+<li><strong>Combinación</strong>: Usar ambos enfoques para mayor robustez</li>
+<li><strong>Alarmas tempranas</strong>: dias_hasta_falla &lt; 30 → iniciar monitoreo intensivo</li>
+<li><strong>Alarmas críticas</strong>: falla_en_7d = True → intervención inmediata</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="variables-derivadas-y-features-engineered" class="level3">
+<h3 class="anchored" data-anchor-id="variables-derivadas-y-features-engineered">3.7 VARIABLES DERIVADAS Y FEATURES ENGINEERED</h3>
+<section id="tendencias-temporales" class="level4">
+<h4 class="anchored" data-anchor-id="tendencias-temporales">3.7.1 Tendencias Temporales</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 35%">
+<col style="width: 24%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Descripción</th>
+<th>Ventana</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>vibracion_trend_7d</code></td>
+<td>Tendencia de vibración 7 días</td>
+<td>168h</td>
+<td>Detección degradación gradual</td>
+</tr>
+<tr class="even">
+<td><code>temperatura_trend_7d</code></td>
+<td>Tendencia de temperatura 7 días</td>
+<td>168h</td>
+<td>Monitoreo térmico</td>
+</tr>
+<tr class="odd">
+<td><code>energia_trend_24h</code></td>
+<td>Tendencia energética 24 horas</td>
+<td>24h</td>
+<td>Eficiencia operacional</td>
+</tr>
+<tr class="even">
+<td><code>throughput_trend_24h</code></td>
+<td>Tendencia de producción 24 horas</td>
+<td>24h</td>
+<td>Performance productiva</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ratios-y-métricas-compuestas" class="level4">
+<h4 class="anchored" data-anchor-id="ratios-y-métricas-compuestas">3.7.2 Ratios y Métricas Compuestas</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 25%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Fórmula</th>
+<th>Interpretación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ratio_p80_feed_producto</code></td>
+<td>F80/P80</td>
+<td>Factor de reducción de tamaño</td>
+</tr>
+<tr class="even">
+<td><code>potencia_especifica_neta</code></td>
+<td>Potencia/Throughput</td>
+<td>kW por tonelada procesada</td>
+</tr>
+<tr class="odd">
+<td><code>eficiencia_energetica_teorica</code></td>
+<td>E_Bond/E_real</td>
+<td>Eficiencia vs teoría de Bond</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="scores-de-anomalía" class="level4">
+<h4 class="anchored" data-anchor-id="scores-de-anomalía">3.7.3 Scores de Anomalía</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 23%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Método</th>
+<th>Interpretación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>anomaly_score_vibration</code></td>
+<td>Z-score</td>
+<td>Desviación de patrón vibracional normal</td>
+</tr>
+<tr class="even">
+<td><code>anomaly_score_electrical</code></td>
+<td>Z-score</td>
+<td>Anomalía en variables eléctricas</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+</section>
+<section id="correlaciones-físicas-implementadas" class="level2">
+<h2 class="anchored" data-anchor-id="correlaciones-físicas-implementadas">4. CORRELACIONES FÍSICAS IMPLEMENTADAS</h2>
+<section id="ley-de-bond-fundamental" class="level3">
+<h3 class="anchored" data-anchor-id="ley-de-bond-fundamental">4.1 Ley de Bond (Fundamental)</h3>
+<pre><code>E = 10 × Wi × (1/√P80 - 1/√F80)</code></pre>
+<p><strong>Implementación</strong>: Determina el consumo energético teórico basado en características del mineral y granulometría objetivo.</p>
+</section>
+<section id="velocidad-crítica" class="level3">
+<h3 class="anchored" data-anchor-id="velocidad-crítica">4.2 Velocidad Crítica</h3>
+<pre><code>Vc = 42.3/√D (donde D = diámetro en metros)</code></pre>
+<p><strong>Para molinos 5.5m</strong>: Vc = 18.0 RPM<br>
+<strong>Operación óptima</strong>: 74-78% de velocidad crítica</p>
+</section>
+<section id="correlaciones-de-degradación" class="level3">
+<h3 class="anchored" data-anchor-id="correlaciones-de-degradación">4.3 Correlaciones de Degradación</h3>
+<section id="rodamientos" class="level4">
+<h4 class="anchored" data-anchor-id="rodamientos">Rodamientos</h4>
+<ul>
+<li><strong>Patrón</strong>: Crecimiento exponencial en vibraciones específicas (BPFO/BPFI)</li>
+<li><strong>Horizonte</strong>: 15-45 días de señales precursoras</li>
+<li><strong>Severidad</strong>: Incremento hasta 4x el valor normal antes de falla</li>
+</ul>
+</section>
+<section id="liners" class="level4">
+<h4 class="anchored" data-anchor-id="liners">Liners</h4>
+<ul>
+<li><strong>Patrón</strong>: Incremento lineal en consumo energético</li>
+<li><strong>Horizonte</strong>: 60-180 días de degradación gradual</li>
+<li><strong>Impacto</strong>: Hasta 15% incremento en energía específica</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="arquitectura-técnica-del-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="arquitectura-técnica-del-dataset">5. ARQUITECTURA TÉCNICA DEL DATASET</h2>
+<section id="estructura-y-dimensiones-reales" class="level3">
+<h3 class="anchored" data-anchor-id="estructura-y-dimensiones-reales">5.1 Estructura y Dimensiones Reales</h3>
+<pre><code>📊 DATASET PRINCIPAL
+├── Registros: 131,478
+├── Variables: 64 campos
+├── Período: 2.5 años (2023-2025)
+├── Molinos: 6 unidades (M1-M6)
+├── Frecuencia: ~12-16 horas
+└── Formato: CSV, separado por comas</code></pre>
+</section>
+<section id="distribución-temporal-y-espacial" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-temporal-y-espacial">5.2 Distribución Temporal y Espacial</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Molino</th>
+<th>Registros</th>
+<th>% Total</th>
+<th>Última Observación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>M1</td>
+<td>~21,913</td>
+<td>16.7%</td>
+<td>2025-06-30</td>
+</tr>
+<tr class="even">
+<td>M2</td>
+<td>~21,913</td>
+<td>16.7%</td>
+<td>2025-06-30</td>
+</tr>
+<tr class="odd">
+<td>M3</td>
+<td>~21,913</td>
+<td>16.7%</td>
+<td>2025-06-30</td>
+</tr>
+<tr class="even">
+<td>M4</td>
+<td>~21,913</td>
+<td>16.7%</td>
+<td>2025-06-30</td>
+</tr>
+<tr class="odd">
+<td>M5</td>
+<td>~21,913</td>
+<td>16.7%</td>
+<td>2025-06-30</td>
+</tr>
+<tr class="even">
+<td>M6</td>
+<td>~21,913</td>
+<td>16.7%</td>
+<td>2025-06-30</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="calidad-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="calidad-de-datos">5.3 Calidad de Datos</h3>
+<section id="missing-values" class="level4">
+<h4 class="anchored" data-anchor-id="missing-values">Missing Values</h4>
+<ul>
+<li><strong>Sensores críticos</strong>: &lt;2% valores faltantes</li>
+<li><strong>Variables proceso</strong>: &lt;1% valores faltantes<br>
+</li>
+<li><strong>Características mineral</strong>: Interpolación por lotes</li>
+</ul>
+</section>
+<section id="distribución-de-eventos" class="level4">
+<h4 class="anchored" data-anchor-id="distribución-de-eventos">Distribución de Eventos</h4>
+<ul>
+<li><strong>Operación normal</strong>: ~95.8% de registros</li>
+<li><strong>Fallas en 7d</strong>: ~4.2% de registros</li>
+<li><strong>Balance por molino</strong>: Distribuido equitativamente</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="casos-de-uso-específicos" class="level2">
+<h2 class="anchored" data-anchor-id="casos-de-uso-específicos">6. CASOS DE USO ESPECÍFICOS</h2>
+<section id="predicción-de-fallas-críticas" class="level3">
+<h3 class="anchored" data-anchor-id="predicción-de-fallas-críticas">6.1 Predicción de Fallas Críticas</h3>
+<section id="objetivo-principal" class="level4">
+<h4 class="anchored" data-anchor-id="objetivo-principal">Objetivo Principal</h4>
+<p>Predecir fallas en ventana de 7 días con: - <strong>Precisión objetivo</strong>: &gt;85% - <strong>Recall objetivo</strong>: &gt;80% - <strong>Lead time promedio</strong>: &gt;8 horas</p>
+</section>
+<section id="variables-críticas-identificadas" class="level4">
+<h4 class="anchored" data-anchor-id="variables-críticas-identificadas">Variables Críticas Identificadas</h4>
+<ol type="1">
+<li><strong>Vibración cojinetes</strong>: Indicadores más tempranos</li>
+<li><strong>Temperaturas</strong>: Confirmación de degradación</li>
+<li><strong>Tendencias 7d</strong>: Patrones de degradación gradual</li>
+<li><strong>Scores anomalía</strong>: Detección de desviaciones</li>
+</ol>
+</section>
+<section id="tipos-de-falla-por-priorizar" class="level4">
+<h4 class="anchored" data-anchor-id="tipos-de-falla-por-priorizar">Tipos de Falla por Priorizar</h4>
+<ol type="1">
+<li><strong>Bearing failures</strong> (92.8%): Mayor frecuencia, impacto crítico</li>
+<li><strong>Lubrication issues</strong> (2.4%): Prevención total de fallas catastróficas</li>
+<li><strong>Liner wear</strong> (4.8%): Planificación de mantenimiento mayor</li>
+</ol>
+</section>
+</section>
+<section id="optimización-energética" class="level3">
+<h3 class="anchored" data-anchor-id="optimización-energética">6.2 Optimización Energética</h3>
+<section id="objetivos-de-optimización" class="level4">
+<h4 class="anchored" data-anchor-id="objetivos-de-optimización">Objetivos de Optimización</h4>
+<ul>
+<li><strong>Minimizar</strong>: <code>consumo_energetico_especifico</code> (target &lt;12 kWh/t)</li>
+<li><strong>Maximizar</strong>: <code>throughput_real</code> (target &gt;280 t/h)</li>
+<li><strong>Mantener</strong>: <code>granulometria_producto_p80</code> (120±15 μm)</li>
+</ul>
+</section>
+<section id="variables-de-control" class="level4">
+<h4 class="anchored" data-anchor-id="variables-de-control">Variables de Control</h4>
+<ul>
+<li><code>feed_rate</code>: Impacto directo en throughput y energía</li>
+<li><code>velocidad_porcentaje_critica</code>: Balance entre productividad y desgaste</li>
+<li><code>densidad_pulpa</code>: Optimización reológica</li>
+<li><code>presion_ciclones</code>: Eficiencia de clasificación</li>
+</ul>
+</section>
+<section id="restricciones-operacionales" class="level4">
+<h4 class="anchored" data-anchor-id="restricciones-operacionales">Restricciones Operacionales</h4>
+<ul>
+<li><strong>Potencia máxima</strong>: 2,200 kW por molino</li>
+<li><strong>Velocidad máxima</strong>: 85% velocidad crítica</li>
+<li><strong>Calidad producto</strong>: P80 entre 100-150 μm</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="metodología-de-modelado-recomendada" class="level2">
+<h2 class="anchored" data-anchor-id="metodología-de-modelado-recomendada">7. METODOLOGÍA DE MODELADO RECOMENDADA</h2>
+<section id="para-predicción-de-fallas" class="level3">
+<h3 class="anchored" data-anchor-id="para-predicción-de-fallas">7.1 Para Predicción de Fallas</h3>
+<section id="preprocesamiento" class="level4">
+<h4 class="anchored" data-anchor-id="preprocesamiento">Preprocesamiento</h4>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Variables clave para modelos de falla</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>failure_features <span class="op">=</span> [</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'vibracion_cojinete_feed_h'</span>, <span class="st">'vibracion_cojinete_discharge_h'</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'temp_cojinete_feed'</span>, <span class="st">'temp_cojinete_discharge'</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'vibracion_trend_7d'</span>, <span class="st">'temperatura_trend_7d'</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'anomaly_score_vibration'</span>, <span class="st">'horas_operacion_acumuladas'</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Target balanceado: 4.2% fallas</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> <span class="st">'falla_en_7d'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="modelos-recomendados" class="level4">
+<h4 class="anchored" data-anchor-id="modelos-recomendados">Modelos Recomendados</h4>
+<ol type="1">
+<li><strong>Random Forest</strong>: Manejo de desbalance, interpretabilidad</li>
+<li><strong>XGBoost</strong>: Performance superior, feature importance</li>
+<li><strong>LSTM</strong>: Patrones temporales complejos</li>
+<li><strong>Ensemble</strong>: Combinación para robustez</li>
+</ol>
+</section>
+<section id="validación" class="level4">
+<h4 class="anchored" data-anchor-id="validación">Validación</h4>
+<ul>
+<li><strong>Time-series split</strong>: Evitar data leakage</li>
+<li><strong>Stratified by mill</strong>: Validación cruzada por molino</li>
+<li><strong>Métricas</strong>: F1-score, AUC-ROC, Precision@K</li>
+</ul>
+</section>
+</section>
+<section id="para-optimización-energética" class="level3">
+<h3 class="anchored" data-anchor-id="para-optimización-energética">7.2 Para Optimización Energética</h3>
+<section id="features-de-entrada" class="level4">
+<h4 class="anchored" data-anchor-id="features-de-entrada">Features de Entrada</h4>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>optimization_features <span class="op">=</span> [</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'feed_rate'</span>, <span class="st">'velocidad_porcentaje_critica'</span>, <span class="st">'densidad_pulpa'</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'work_index_bond'</span>, <span class="st">'dureza_mineral'</span>, <span class="st">'granulometria_feed_p80'</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'nivel_desgaste_liners'</span>, <span class="st">'presion_ciclones'</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Target continuo</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> <span class="st">'consumo_energetico_especifico'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="enfoques-de-modelado" class="level4">
+<h4 class="anchored" data-anchor-id="enfoques-de-modelado">Enfoques de Modelado</h4>
+<ol type="1">
+<li><strong>Regresión multiobjetivo</strong>: Energía + Throughput + Calidad</li>
+<li><strong>Reinforcement Learning</strong>: Control adaptativo</li>
+<li><strong>Modelos físicos híbridos</strong>: Bond equation + ML corrections</li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="implementación-y-validación" class="level2">
+<h2 class="anchored" data-anchor-id="implementación-y-validación">8. IMPLEMENTACIÓN Y VALIDACIÓN</h2>
+<section id="pipeline-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="pipeline-de-datos">8.1 Pipeline de Datos</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'molinos_mineraperu_dataset.csv'</span>, </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                 parse_dates<span class="op">=</span>[<span class="st">'timestamp'</span>])</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtros de calidad</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'consumo_energetico_especifico'</span>] <span class="op">&lt;</span> <span class="dv">25</span>]  <span class="co"># Outliers energéticos</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'vibracion_cojinete_feed_h'</span>] <span class="op">&lt;</span> <span class="dv">15</span>]      <span class="co"># Outliers vibracionales</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Feature engineering adicional</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'energia_normalizada'</span>] <span class="op">=</span> df[<span class="st">'consumo_energetico_especifico'</span>] <span class="op">/</span> df[<span class="st">'work_index_bond'</span>]</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'carga_relativa_motor'</span>] <span class="op">=</span> df[<span class="st">'corriente_motor'</span>] <span class="op">/</span> <span class="dv">1000</span>  <span class="co"># Normalizar</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="métricas-de-validación-del-realismo" class="level3">
+<h3 class="anchored" data-anchor-id="métricas-de-validación-del-realismo">8.2 Métricas de Validación del Realismo</h3>
+<section id="correlaciones-físicas-verificadas" class="level4">
+<h4 class="anchored" data-anchor-id="correlaciones-físicas-verificadas">Correlaciones Físicas Verificadas ✅</h4>
+<ul>
+<li><strong>Potencia vs Throughput</strong>: r &gt; 0.75</li>
+<li><strong>Work Index vs Energía</strong>: r &gt; 0.68</li>
+<li><strong>Vibración vs Temperatura</strong>: r &gt; 0.45</li>
+<li><strong>Velocidad vs Consumo</strong>: Curva óptima en 76% Vc</li>
+</ul>
+</section>
+<section id="distribuciones-realistas" class="level4">
+<h4 class="anchored" data-anchor-id="distribuciones-realistas">Distribuciones Realistas ✅</h4>
+<ul>
+<li><strong>Energía específica</strong>: 8-18 kWh/t (dentro de literatura)</li>
+<li><strong>Vibración cojinetes</strong>: 1.5-8.5 mm/s (norma ISO 10816)</li>
+<li><strong>Temperaturas</strong>: 40-80°C (rangos operacionales típicos)</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="próximos-pasos-y-recomendaciones" class="level2">
+<h2 class="anchored" data-anchor-id="próximos-pasos-y-recomendaciones">9. PRÓXIMOS PASOS Y RECOMENDACIONES</h2>
+<section id="modelado-inmediato" class="level3">
+<h3 class="anchored" data-anchor-id="modelado-inmediato">9.1 Modelado Inmediato</h3>
+<ol type="1">
+<li><strong>Análisis exploratorio detallado</strong> por molino individual</li>
+<li><strong>Baseline models</strong> para predicción de fallas</li>
+<li><strong>Optimización energética</strong> con enfoques multi-objetivo</li>
+</ol>
+</section>
+<section id="validación-avanzada" class="level3">
+<h3 class="anchored" data-anchor-id="validación-avanzada">9.2 Validación Avanzada</h3>
+<ol type="1">
+<li><strong>Simulación de escenarios</strong> operacionales extremos</li>
+<li><strong>Validación con expertos</strong> de dominio minero</li>
+<li><strong>Benchmarking</strong> con literatura técnica adicional</li>
+</ol>
+</section>
+<section id="expansión-del-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="expansión-del-dataset">9.3 Expansión del Dataset</h3>
+<ol type="1">
+<li><strong>Más eventos de falla</strong> para tipos menos frecuentes</li>
+<li><strong>Condiciones operacionales extremas</strong> (paradas, arranques)</li>
+<li><strong>Variables adicionales</strong> (análisis de aceite, desgaste específico)</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="conclusiones" class="level2">
+<h2 class="anchored" data-anchor-id="conclusiones">10. CONCLUSIONES</h2>
+<p>El dataset sintético generado para MineraPeru representa una base sólida y técnicamente robusta para abordar los desafíos de predicción de fallas y optimización energética en molinos de bolas. Con 131,478 registros y 64 variables especializadas, proporciona la riqueza de datos necesaria para desarrollar modelos de machine learning efectivos que puedan traducirse en beneficios operacionales y económicos tangibles.</p>
+<p>La arquitectura híbrida del dataset permite flexibilidad para abordar tanto problemas de clasificación (predicción de fallas) como de optimización continua (eficiencia energética), manteniendo la fidelidad a las correlaciones físicas fundamentales del proceso de molienda y los patrones reales de degradación de equipos en la industria minera.</p>
+<hr>
+<p><strong>Documento actualizado</strong>: Enero 2025<br>
+<strong>Versión</strong>: 2.0<br>
+<strong>Autor</strong>: Data Science Team - Proyecto MineraPeru</p>
+<hr>
+</section>
+<section id="anexo-resumen-completo-de-variables-del-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="anexo-resumen-completo-de-variables-del-dataset">ANEXO: RESUMEN COMPLETO DE VARIABLES DEL DATASET</h2>
+<section id="tabla-consolidada-de-las-64-variables" class="level3">
+<h3 class="anchored" data-anchor-id="tabla-consolidada-de-las-64-variables">Tabla Consolidada de las 64 Variables</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 26%">
+<col style="width: 15%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Variable</th>
+<th>Tipo</th>
+<th>Descripción Corta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>timestamp</code></td>
+<td>datetime</td>
+<td>Marca temporal de la observación</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>molino_id</code></td>
+<td>categorical</td>
+<td>Identificador del molino (M1-M6)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>turno</code></td>
+<td>categorical</td>
+<td>Turno operativo (A, B, C)</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>feed_rate</code></td>
+<td>float</td>
+<td>Tonelaje de alimentación (t/h)</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>velocidad_rotacion</code></td>
+<td>float</td>
+<td>Velocidad de rotación del molino (RPM)</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><code>velocidad_porcentaje_critica</code></td>
+<td>float</td>
+<td>Porcentaje de velocidad crítica (%)</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><code>nivel_carga_bolas</code></td>
+<td>float</td>
+<td>Porcentaje de llenado con bolas (%)</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td><code>densidad_pulpa</code></td>
+<td>float</td>
+<td>Concentración de sólidos en pulpa (%)</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td><code>agua_adicionada</code></td>
+<td>float</td>
+<td>Caudal de agua fresca (m³/h)</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td><code>presion_ciclones</code></td>
+<td>float</td>
+<td>Presión alimentación hidrociclones (kPa)</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td><code>vibracion_cojinete_feed_h</code></td>
+<td>float</td>
+<td>Vibración horizontal cojinete alimentación (mm/s)</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td><code>vibracion_cojinete_feed_v</code></td>
+<td>float</td>
+<td>Vibración vertical cojinete alimentación (mm/s)</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td><code>vibracion_cojinete_discharge_h</code></td>
+<td>float</td>
+<td>Vibración horizontal cojinete descarga (mm/s)</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td><code>vibracion_cojinete_discharge_v</code></td>
+<td>float</td>
+<td>Vibración vertical cojinete descarga (mm/s)</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td><code>vibracion_shell_h</code></td>
+<td>float</td>
+<td>Vibración horizontal del casco (mm/s)</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td><code>vibracion_shell_v</code></td>
+<td>float</td>
+<td>Vibración vertical del casco (mm/s)</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td><code>vibracion_pinion</code></td>
+<td>float</td>
+<td>Vibración del piñón de transmisión (mm/s)</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td><code>vibracion_gearbox</code></td>
+<td>float</td>
+<td>Vibración de la caja reductora (mm/s)</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td><code>temp_cojinete_feed</code></td>
+<td>float</td>
+<td>Temperatura cojinete alimentación (°C)</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td><code>temp_cojinete_discharge</code></td>
+<td>float</td>
+<td>Temperatura cojinete descarga (°C)</td>
+</tr>
+<tr class="odd">
+<td>21</td>
+<td><code>temp_aceite_lubricacion</code></td>
+<td>float</td>
+<td>Temperatura aceite lubricación (°C)</td>
+</tr>
+<tr class="even">
+<td>22</td>
+<td><code>temp_motor_principal</code></td>
+<td>float</td>
+<td>Temperatura motor principal (°C)</td>
+</tr>
+<tr class="odd">
+<td>23</td>
+<td><code>temp_gearbox</code></td>
+<td>float</td>
+<td>Temperatura caja reductora (°C)</td>
+</tr>
+<tr class="even">
+<td>24</td>
+<td><code>corriente_motor</code></td>
+<td>float</td>
+<td>Corriente consumida motor (A)</td>
+</tr>
+<tr class="odd">
+<td>25</td>
+<td><code>potencia_activa</code></td>
+<td>float</td>
+<td>Potencia real consumida (kW)</td>
+</tr>
+<tr class="even">
+<td>26</td>
+<td><code>voltaje_motor</code></td>
+<td>float</td>
+<td>Voltaje de alimentación motor (V)</td>
+</tr>
+<tr class="odd">
+<td>27</td>
+<td><code>factor_potencia</code></td>
+<td>float</td>
+<td>Factor de potencia eléctrica (-)</td>
+</tr>
+<tr class="even">
+<td>28</td>
+<td><code>presion_aceite_principal</code></td>
+<td>float</td>
+<td>Presión sistema lubricación (bar)</td>
+</tr>
+<tr class="odd">
+<td>29</td>
+<td><code>flujo_aceite</code></td>
+<td>float</td>
+<td>Caudal aceite circulante (L/min)</td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td><code>nivel_tanque_aceite</code></td>
+<td>float</td>
+<td>Nivel tanque lubricación (%)</td>
+</tr>
+<tr class="odd">
+<td>31</td>
+<td><code>calidad_aceite_ppm</code></td>
+<td>float</td>
+<td>Contaminación aceite (ppm)</td>
+</tr>
+<tr class="even">
+<td>32</td>
+<td><code>consumo_energetico_especifico</code></td>
+<td>float</td>
+<td>Energía por tonelada procesada (kWh/t)</td>
+</tr>
+<tr class="odd">
+<td>33</td>
+<td><code>throughput_real</code></td>
+<td>float</td>
+<td>Producción real efectiva (t/h)</td>
+</tr>
+<tr class="even">
+<td>34</td>
+<td><code>eficiencia_molienda</code></td>
+<td>float</td>
+<td>Eficiencia vs condiciones ideales (%)</td>
+</tr>
+<tr class="odd">
+<td>35</td>
+<td><code>granulometria_producto_p80</code></td>
+<td>float</td>
+<td>Tamaño 80% pasante producto (μm)</td>
+</tr>
+<tr class="even">
+<td>36</td>
+<td><code>nivel_desgaste_liners</code></td>
+<td>float</td>
+<td>Desgaste revestimientos internos (%)</td>
+</tr>
+<tr class="odd">
+<td>37</td>
+<td><code>horas_operacion_acumuladas</code></td>
+<td>integer</td>
+<td>Horas desde último mantenimiento mayor</td>
+</tr>
+<tr class="even">
+<td>38</td>
+<td><code>ciclos_arranque_parada</code></td>
+<td>integer</td>
+<td>Número arranques/paradas por período</td>
+</tr>
+<tr class="odd">
+<td>39</td>
+<td><code>carga_circulante</code></td>
+<td>float</td>
+<td>Carga circulante en circuito (%)</td>
+</tr>
+<tr class="even">
+<td>40</td>
+<td><code>eficiencia_clasificacion</code></td>
+<td>float</td>
+<td>Eficiencia hidrociclones (%)</td>
+</tr>
+<tr class="odd">
+<td>41</td>
+<td><code>work_index_bond</code></td>
+<td>float</td>
+<td>Índice trabajo Bond del mineral (kWh/t)</td>
+</tr>
+<tr class="even">
+<td>42</td>
+<td><code>dureza_mineral</code></td>
+<td>float</td>
+<td>Dureza en escala Mohs</td>
+</tr>
+<tr class="odd">
+<td>43</td>
+<td><code>humedad_mineral</code></td>
+<td>float</td>
+<td>Contenido humedad natural (%)</td>
+</tr>
+<tr class="even">
+<td>44</td>
+<td><code>granulometria_feed_p80</code></td>
+<td>float</td>
+<td>Tamaño 80% pasante alimentación (μm)</td>
+</tr>
+<tr class="odd">
+<td>45</td>
+<td><code>densidad_mineral</code></td>
+<td>float</td>
+<td>Densidad específica mineral (t/m³)</td>
+</tr>
+<tr class="even">
+<td>46</td>
+<td><code>contenido_arcillas</code></td>
+<td>float</td>
+<td>Porcentaje minerales arcillosos (%)</td>
+</tr>
+<tr class="odd">
+<td>47</td>
+<td><code>abrasividad_ai</code></td>
+<td>float</td>
+<td>Índice abrasividad mineral (-)</td>
+</tr>
+<tr class="even">
+<td>48</td>
+<td><code>temperatura_ambiente</code></td>
+<td>float</td>
+<td>Temperatura ambiental (°C)</td>
+</tr>
+<tr class="odd">
+<td>49</td>
+<td><code>humedad_relativa</code></td>
+<td>float</td>
+<td>Humedad relativa ambiente (%)</td>
+</tr>
+<tr class="even">
+<td>50</td>
+<td><code>falla_en_7d</code></td>
+<td>boolean</td>
+<td>Ocurrirá falla en próximos 7 días</td>
+</tr>
+<tr class="odd">
+<td>51</td>
+<td><code>falla_en_14d</code></td>
+<td>boolean</td>
+<td>Ocurrirá falla en próximos 14 días</td>
+</tr>
+<tr class="even">
+<td>52</td>
+<td><code>falla_en_30d</code></td>
+<td>boolean</td>
+<td>Ocurrirá falla en próximos 30 días</td>
+</tr>
+<tr class="odd">
+<td>53</td>
+<td><code>tipo_falla</code></td>
+<td>categorical</td>
+<td>Tipo específico de falla</td>
+</tr>
+<tr class="even">
+<td>54</td>
+<td><code>severidad_falla</code></td>
+<td>integer</td>
+<td>Severidad falla (1=menor, 2=moderada, 3=crítica)</td>
+</tr>
+<tr class="odd">
+<td>55</td>
+<td><code>dias_hasta_falla</code></td>
+<td>float</td>
+<td>Días hasta próxima falla</td>
+</tr>
+<tr class="even">
+<td>56</td>
+<td><code>vibracion_trend_7d</code></td>
+<td>float</td>
+<td>Tendencia vibración 7 días</td>
+</tr>
+<tr class="odd">
+<td>57</td>
+<td><code>temperatura_trend_7d</code></td>
+<td>float</td>
+<td>Tendencia temperatura 7 días</td>
+</tr>
+<tr class="even">
+<td>58</td>
+<td><code>energia_trend_24h</code></td>
+<td>float</td>
+<td>Tendencia energética 24 horas</td>
+</tr>
+<tr class="odd">
+<td>59</td>
+<td><code>throughput_trend_24h</code></td>
+<td>float</td>
+<td>Tendencia producción 24 horas</td>
+</tr>
+<tr class="even">
+<td>60</td>
+<td><code>ratio_p80_feed_producto</code></td>
+<td>float</td>
+<td>Factor reducción tamaño</td>
+</tr>
+<tr class="odd">
+<td>61</td>
+<td><code>potencia_especifica_neta</code></td>
+<td>float</td>
+<td>kW por tonelada procesada</td>
+</tr>
+<tr class="even">
+<td>62</td>
+<td><code>eficiencia_energetica_teorica</code></td>
+<td>float</td>
+<td>Eficiencia vs teoría Bond</td>
+</tr>
+<tr class="odd">
+<td>63</td>
+<td><code>anomaly_score_vibration</code></td>
+<td>float</td>
+<td>Score anomalía patrón vibracional</td>
+</tr>
+<tr class="even">
+<td>64</td>
+<td><code>anomaly_score_electrical</code></td>
+<td>float</td>
+<td>Score anomalía variables eléctricas</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="categorización-por-uso-principal" class="level3">
+<h3 class="anchored" data-anchor-id="categorización-por-uso-principal">Categorización por Uso Principal</h3>
+<section id="variables-de-identificación-3" class="level4">
+<h4 class="anchored" data-anchor-id="variables-de-identificación-3">Variables de Identificación (3)</h4>
+<p>Variables 1-3: <code>timestamp</code>, <code>molino_id</code>, <code>turno</code></p>
+</section>
+<section id="variables-de-proceso-controlables-7" class="level4">
+<h4 class="anchored" data-anchor-id="variables-de-proceso-controlables-7">Variables de Proceso Controlables (7)</h4>
+<p>Variables 4-10: Parámetros operacionales ajustables para optimización</p>
+</section>
+<section id="variables-condition-monitoring-21" class="level4">
+<h4 class="anchored" data-anchor-id="variables-condition-monitoring-21">Variables Condition Monitoring (21)</h4>
+<p>Variables 11-31: Sensores críticos para predicción de fallas - Vibración (8 variables): 11-18 - Temperatura (5 variables): 19-23<br>
+- Eléctricas (4 variables): 24-27 - Lubricación (4 variables): 28-31</p>
+</section>
+<section id="variables-de-performance-9" class="level4">
+<h4 class="anchored" data-anchor-id="variables-de-performance-9">Variables de Performance (9)</h4>
+<p>Variables 32-40: Indicadores de eficiencia y productividad</p>
+</section>
+<section id="características-del-mineral-9" class="level4">
+<h4 class="anchored" data-anchor-id="características-del-mineral-9">Características del Mineral (9)</h4>
+<p>Variables 41-49: Propiedades del material procesado</p>
+</section>
+<section id="variables-target-ml-6" class="level4">
+<h4 class="anchored" data-anchor-id="variables-target-ml-6">Variables Target ML (6)</h4>
+<p>Variables 50-55: Objetivos para modelos predictivos</p>
+</section>
+<section id="features-derivadas-9" class="level4">
+<h4 class="anchored" data-anchor-id="features-derivadas-9">Features Derivadas (9)</h4>
+<p>Variables 56-64: Variables calculadas y scores de anomalía</p>
+<p><strong>Total: 64 variables especializadas para análisis integral de molinos de bolas</strong></p>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
