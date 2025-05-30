@@ -11,3 +11,9 @@ wheels/
 
 # Otros archivos
 *.csv
+
+#personal ach
+pca_an.qmd
+pdf_maquina_bolas_EDA.qmd
+styles.css
+verificar_target.py

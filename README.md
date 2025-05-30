@@ -206,7 +206,7 @@ source .venv/bin/activate  # Linux/macOS
 
 ## 📄 Licencia
 
-MIT LIcense
+MIT License
 
 ## 👨‍💻 Autores
 
