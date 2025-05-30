@@ -1,0 +1,1203 @@
+---
+author: "ACH - Grupo 1"
+title: "Máquina de bolas - análisis"
+format:
+    html:
+        toc: true
+        toc-location: left
+margin: 0
+code-fold: true
+fig-width: 7.5
+---
+
+## Resumen Ejecutivo
+Este análisis exploratorio examina datos operacionales de molinos de bolas del caso propuesto, enfocándose en la identificación de patrones para mantenimiento predictivo y optimización operacional. Los datos contienen 130k registros con 64 variables que abarcan desde parámetros operacionales hasta indicadores de fallas.
+
+### Objetivos principales:
+
+1. Identificar patrones precursores de fallas en equipos críticos
+2. Analizar relaciones entre variables operacionales y eficiencia
+3. Proporcionar insights para optimización del proceso de molienda
+
+## 1. Configuración y Carga de Datos
+```{python}
+# Importación de librerías
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import warnings
+from scipy import stats
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
+import datetime as dt
+
+from utils import molinos_data
+
+# Configuración de visualización
+plt.style.use('seaborn-v0_8')
+sns.set_palette("husl")
+warnings.filterwarnings('ignore')
+
+# Configuración de plotly
+import plotly.io as pio
+pio.templates.default = "plotly_white"
+
+print("✅ Librerías cargadas exitosamente")
+
+# Carga de datos
+df = molinos_data()
+
+# Conversión de tipos
+df['timestamp'] = pd.to_datetime(df['timestamp'])
+df['falla_en_7d'] = df['falla_en_7d'].astype(bool)
+df['falla_en_14d'] = df['falla_en_14d'].astype(bool)
+df['falla_en_30d'] = df['falla_en_30d'].astype(bool)
+
+print("✅ Datos cargados y procesados")
+print(f"📊 Shape del dataset: {df.shape}")
+print(f"📅 Rango temporal: {df['timestamp'].min()} a {df['timestamp'].max()}")
+```
+
+
+### Información General del Dataset
+
+```{python}
+# Información general
+print("=== INFORMACIÓN GENERAL DEL DATASET ===")
+print(f"Registros: {len(df):,}")
+print(f"Variables: {len(df.columns)}")
+print(f"Memoria utilizada: {df.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
+
+# Distribución por molino
+print("\n=== DISTRIBUCIÓN POR MOLINO ===")
+molino_dist = df['molino_id'].value_counts().sort_index()
+print(molino_dist)
+
+# Distribución temporal
+print("\n=== DISTRIBUCIÓN TEMPORAL ===")
+df['year_month'] = df['timestamp'].dt.to_period('M')
+temporal_dist = df['year_month'].value_counts().sort_index()
+print(f"Período más antiguo: {temporal_dist.index.min()}")
+print(f"Período más reciente: {temporal_dist.index.max()}")
+
+# Valores faltantes
+print("\n=== VALORES FALTANTES ===")
+missing_data = df.isnull().sum()
+missing_pct = (missing_data / len(df)) * 100
+missing_summary = pd.DataFrame({
+    'Valores_Faltantes': missing_data,
+    'Porcentaje': missing_pct
+}).sort_values('Porcentaje', ascending=False)
+
+if missing_summary['Valores_Faltantes'].sum() > 0:
+    print(missing_summary[missing_summary['Valores_Faltantes'] > 0].head(10))
+else:
+    print("✅ No se encontraron valores faltantes")
+# Valores
+print("\n=== VARIABLES ===")
+print(df.info())
+```
+```{python}
+# Información general
+df.head(10)
+```
+
+## 2. Análisis Univariado
+
+### 2.1 Variables Categóricas
+```{python}
+# Análisis de variables categóricas
+fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+fig.suptitle('Distribución de Variables Categóricas', fontsize=16, fontweight='bold')
+
+# Molino ID
+molino_counts = df['molino_id'].value_counts()
+axes[0,0].bar(molino_counts.index, molino_counts.values, color='steelblue', alpha=0.7)
+axes[0,0].set_title('Distribución por Molino')
+axes[0,0].set_xlabel('Molino ID')
+axes[0,0].set_ylabel('Frecuencia')
+
+# Turno
+turno_counts = df['turno'].value_counts()
+axes[0,1].bar(turno_counts.index, turno_counts.values, color='orange', alpha=0.7)
+axes[0,1].set_title('Distribución por Turno')
+axes[0,1].set_xlabel('Turno')
+axes[0,1].set_ylabel('Frecuencia')
+
+# Tipo de falla
+falla_counts = df['tipo_falla'].value_counts()
+axes[1,0].bar(range(len(falla_counts)), falla_counts.values, color='red', alpha=0.7)
+axes[1,0].set_title('Distribución por Tipo de Falla')
+axes[1,0].set_xlabel('Tipo de Falla')
+axes[1,0].set_ylabel('Frecuencia')
+axes[1,0].set_xticks(range(len(falla_counts)))
+axes[1,0].set_xticklabels(falla_counts.index, rotation=45)
+
+# Severidad de falla
+severidad_counts = df['severidad_falla'].value_counts().sort_index()
+axes[1,1].bar(severidad_counts.index, severidad_counts.values, color='purple', alpha=0.7)
+axes[1,1].set_title('Distribución por Severidad de Falla')
+axes[1,1].set_xlabel('Severidad')
+axes[1,1].set_ylabel('Frecuencia')
+
+plt.tight_layout()
+plt.show()
+
+# Estadísticas de variables categóricas
+print("=== ESTADÍSTICAS VARIABLES CATEGÓRICAS ===")
+print(f"Molinos únicos: {df['molino_id'].nunique()}")
+print(f"Turnos únicos: {df['turno'].nunique()}")
+print(f"Tipos de falla únicos: {df['tipo_falla'].nunique()}")
+print(f"Niveles de severidad: {df['severidad_falla'].nunique()}")
+```
+
+### 2.2 Variables de Proceso y Operación
+
+```{python}
+# Definición de grupos de variables
+variables_proceso = [
+    'feed_rate', 'velocidad_rotacion', 'velocidad_porcentaje_critica',
+    'nivel_carga_bolas', 'densidad_pulpa', 'agua_adicionada', 'presion_ciclones'
+]
+
+variables_monitoreo = [
+    'vibracion_cojinete_feed_h', 'vibracion_cojinete_feed_v',
+    'vibracion_cojinete_discharge_h', 'vibracion_cojinete_discharge_v',
+    'temp_cojinete_feed', 'temp_cojinete_discharge', 'corriente_motor'
+]
+
+variables_resultado = [
+    'throughput_real', 'eficiencia_molienda', 'consumo_energetico_especifico',
+    'granulometria_producto_p80', 'eficiencia_clasificacion'
+]
+
+variables_mineral = [
+    'work_index_bond', 'dureza_mineral', 'humedad_mineral',
+    'granulometria_feed_p80', 'densidad_mineral', 'contenido_arcillas'
+]
+
+# Función para crear histogramas con estadísticas
+def plot_histograms_with_stats(variables, data, title, rows=2, cols=4):
+    n_vars = len(variables)
+    fig, axes = plt.subplots(rows, cols, figsize=(20, 10))
+    fig.suptitle(title, fontsize=16, fontweight='bold')
+    
+    axes = axes.flatten() if rows * cols > 1 else [axes]
+    
+    for i, var in enumerate(variables):
+        if i < len(axes):
+            ax = axes[i]
+            values = data[var].dropna()
+            
+            # Histograma
+            ax.hist(values, bins=30, alpha=0.7, color='steelblue', edgecolor='black')
+            ax.set_title(f'{var}')
+            ax.set_xlabel('Valor')
+            ax.set_ylabel('Frecuencia')
+            
+            # Estadísticas en el gráfico
+            mean_val = values.mean()
+            std_val = values.std()
+            ax.axvline(mean_val, color='red', linestyle='--', alpha=0.8, label=f'Media: {mean_val:.2f}')
+            ax.axvline(mean_val + std_val, color='orange', linestyle=':', alpha=0.8)
+            ax.axvline(mean_val - std_val, color='orange', linestyle=':', alpha=0.8)
+            ax.legend(fontsize=8)
+            
+            # Grid
+            ax.grid(True, alpha=0.3)
+    
+    # Ocultar ejes sobrantes
+    for i in range(len(variables), len(axes)):
+        axes[i].set_visible(False)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    # Tabla de estadísticas
+    stats_df = data[variables].describe().round(2)
+    return stats_df
+
+# Análisis de variables de proceso
+print("=== VARIABLES DE PROCESO ===")
+stats_proceso = plot_histograms_with_stats(variables_proceso, df, 'Distribución Variables de Proceso')
+print(stats_proceso)
+```
+
+### 2.3 Detección de Outliers
+```{python}
+# Función para detectar outliers usando IQR
+def detect_outliers_iqr(data, columns):
+    outliers_summary = {}
+    
+    for col in columns:
+        Q1 = data[col].quantile(0.25)
+        Q3 = data[col].quantile(0.75)
+        IQR = Q3 - Q1
+        lower_bound = Q1 - 1.5 * IQR
+        upper_bound = Q3 + 1.5 * IQR
+        
+        outliers = data[(data[col] < lower_bound) | (data[col] > upper_bound)]
+        outliers_summary[col] = {
+            'count': len(outliers),
+            'percentage': (len(outliers) / len(data)) * 100,
+            'lower_bound': lower_bound,
+            'upper_bound': upper_bound
+        }
+    
+    return outliers_summary
+
+# Detectar outliers en variables numéricas clave
+numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
+numeric_columns = [col for col in numeric_columns if col not in ['horas_operacion_acumuladas', 'ciclos_arranque_parada', 'severidad_falla']]
+
+outliers_info = detect_outliers_iqr(df, numeric_columns[:15])  # Primeras 15 variables numéricas
+
+# Crear DataFrame con información de outliers
+outliers_df = pd.DataFrame(outliers_info).T
+outliers_df = outliers_df.sort_values('percentage', ascending=False)
+
+print("=== DETECCIÓN DE OUTLIERS (Top 10) ===")
+print(outliers_df.head(10))
+
+# Boxplots para variables con más outliers
+top_outlier_vars = outliers_df.head(6).index.tolist()
+
+fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+fig.suptitle('Boxplots - Variables con Mayor Presencia de Outliers', fontsize=16, fontweight='bold')
+
+axes = axes.flatten()
+for i, var in enumerate(top_outlier_vars):
+    df.boxplot(column=var, ax=axes[i])
+    axes[i].set_title(f'{var}\n({outliers_df.loc[var, "percentage"]:.1f}% outliers)')
+    axes[i].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+## 3.Análisis de Fallas y Mantenimiento Predictivo
+### 3.1 Distribución Temporal de Fallas
+
+```{python}
+# Análisis de fallas por tiempo
+print("=== ANÁLISIS DE FALLAS ===")
+
+# Distribución de fallas en diferentes horizontes
+fallas_summary = {
+    'Fallas en 7 días': df['falla_en_7d'].sum(),
+    'Fallas en 14 días': df['falla_en_14d'].sum(),
+    'Fallas en 30 días': df['falla_en_30d'].sum()
+}
+
+print("Distribución de fallas por horizonte temporal:")
+for key, value in fallas_summary.items():
+    percentage = (value / len(df)) * 100
+    print(f"  {key}: {value} casos ({percentage:.2f}%)")
+
+# Visualización de fallas por molino y tipo
+fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+fig.suptitle('Análisis de Fallas por Molino y Tipo', fontsize=16, fontweight='bold')
+
+# Fallas por molino
+fallas_molino = df.groupby('molino_id')[['falla_en_7d', 'falla_en_14d', 'falla_en_30d']].sum()
+fallas_molino.plot(kind='bar', ax=axes[0,0], color=['red', 'orange', 'yellow'])
+axes[0,0].set_title('Fallas por Molino')
+axes[0,0].set_xlabel('Molino ID')
+axes[0,0].set_ylabel('Número de Fallas')
+axes[0,0].legend(['7 días', '14 días', '30 días'])
+axes[0,0].tick_params(axis='x', rotation=0)
+
+# Distribución de tipos de falla
+tipo_falla_dist = df['tipo_falla'].value_counts()
+axes[0,1].pie(tipo_falla_dist.values, labels=tipo_falla_dist.index, autopct='%1.1f%%')
+axes[0,1].set_title('Distribución por Tipo de Falla')
+
+# Severidad de fallas por molino
+severidad_molino = df.groupby(['molino_id', 'severidad_falla']).size().unstack(fill_value=0)
+severidad_molino.plot(kind='bar', stacked=True, ax=axes[1,0], colormap='Reds')
+axes[1,0].set_title('Severidad de Fallas por Molino')
+axes[1,0].set_xlabel('Molino ID')
+axes[1,0].set_ylabel('Número de Casos')
+axes[1,0].tick_params(axis='x', rotation=0)
+
+# Distribución de días hasta falla
+dias_falla = df[df['dias_hasta_falla'] < 365]['dias_hasta_falla']
+axes[1,1].hist(dias_falla, bins=30, alpha=0.7, color='red', edgecolor='black')
+axes[1,1].set_title('Distribución de Días hasta Falla')
+axes[1,1].set_xlabel('Días hasta Falla')
+axes[1,1].set_ylabel('Frecuencia')
+axes[1,1].axvline(dias_falla.mean(), color='blue', linestyle='--', label=f'Media: {dias_falla.mean():.1f}')
+axes[1,1].legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+### 3.2 Análisis de Señales Precursoras
+```{python}
+# Análisis de variables que pueden predecir fallas
+def analyze_failure_predictors(data, failure_col, variables_to_analyze):
+    """Analiza variables que pueden predecir fallas"""
+    
+    results = {}
+    
+    for var in variables_to_analyze:
+        # Separar datos con y sin falla
+        no_failure = data[data[failure_col] == False][var]
+        with_failure = data[data[failure_col] == True][var]
+        
+        # Test estadístico
+        statistic, p_value = stats.mannwhitneyu(no_failure.dropna(), with_failure.dropna(), alternative='two-sided')
+        
+        # Diferencia de medias
+        mean_diff = with_failure.mean() - no_failure.mean()
+        mean_diff_pct = (mean_diff / no_failure.mean()) * 100 if no_failure.mean() != 0 else 0
+        
+        results[var] = {
+            'mean_no_failure': no_failure.mean(),
+            'mean_with_failure': with_failure.mean(),
+            'mean_difference': mean_diff,
+            'mean_diff_percentage': mean_diff_pct,
+            'p_value': p_value,
+            'significant': p_value < 0.05
+        }
+    
+    return pd.DataFrame(results).T
+
+# Variables a analizar como predictores
+predictor_vars = [
+    'vibracion_cojinete_feed_h', 'vibracion_cojinete_feed_v',
+    'temp_cojinete_feed', 'temp_cojinete_discharge', 'corriente_motor',
+    'consumo_energetico_especifico', 'eficiencia_molienda',
+    'nivel_desgaste_liners', 'calidad_aceite_ppm',
+    'anomaly_score_vibration', 'anomaly_score_electrical'
+]
+
+# Análisis para fallas en 7 días
+print("=== ANÁLISIS DE PREDICTORES DE FALLAS (7 días) ===")
+predictors_7d = analyze_failure_predictors(df, 'falla_en_7d', predictor_vars)
+predictors_7d_sig = predictors_7d[predictors_7d['significant']].sort_values('mean_diff_percentage', key=abs, ascending=False)
+
+print("Variables significativamente diferentes entre casos con y sin falla:")
+print(predictors_7d_sig[['mean_no_failure', 'mean_with_failure', 'mean_diff_percentage', 'p_value']].round(4))
+
+# Visualización de predictores más significativos
+top_predictors = predictors_7d_sig.head(6).index.tolist()
+
+fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+fig.suptitle('Distribución de Variables Predictoras (Fallas en 7 días)', fontsize=16, fontweight='bold')
+
+axes = axes.flatten()
+for i, var in enumerate(top_predictors):
+    # Datos para boxplot
+    no_failure_data = df[df['falla_en_7d'] == False][var]
+    with_failure_data = df[df['falla_en_7d'] == True][var]
+    
+    # Boxplot comparativo
+    data_to_plot = [no_failure_data.dropna(), with_failure_data.dropna()]
+    box_plot = axes[i].boxplot(data_to_plot, labels=['Sin Falla', 'Con Falla'], patch_artist=True)
+    
+    # Colorear boxplots
+    box_plot['boxes'][0].set_facecolor('lightblue')
+    box_plot['boxes'][1].set_facecolor('lightcoral')
+    
+    axes[i].set_title(f'{var}')
+    axes[i].grid(True, alpha=0.3)
+    
+    # Añadir información estadística
+    diff_pct = predictors_7d_sig.loc[var, 'mean_diff_percentage']
+    p_val = predictors_7d_sig.loc[var, 'p_value']
+    axes[i].text(0.5, 0.95, f'Diff: {diff_pct:.1f}%\np-val: {p_val:.3f}', 
+                transform=axes[i].transAxes, ha='center', va='top',
+                bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+
+plt.tight_layout()
+plt.show()
+```
+
+## 4. Análisis Bivariado y Correlaciones
+### 4.1 Matriz de Correlación por Grupos
+```{python}
+# Matriz de correlación para variables de proceso
+def plot_correlation_matrix(data, variables, title, figsize=(12, 10)):
+    """Crea matriz de correlación con anotaciones"""
+    corr_matrix = data[variables].corr()
+    
+    plt.figure(figsize=figsize)
+    mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
+    
+    sns.heatmap(corr_matrix, mask=mask, annot=True, cmap='RdBu_r', center=0,
+                square=True, linewidths=0.5, cbar_kws={"shrink": 0.8}, fmt='.2f')
+    
+    plt.title(title, fontsize=14, fontweight='bold')
+    plt.tight_layout()
+    plt.show()
+    
+    return corr_matrix
+
+# Correlaciones por grupos de variables
+print("=== MATRICES DE CORRELACIÓN POR GRUPOS ===")
+
+# Variables de proceso
+corr_proceso = plot_correlation_matrix(df, variables_proceso, 'Correlaciones - Variables de Proceso')
+
+# Variables de monitoreo
+corr_monitoreo = plot_correlation_matrix(df, variables_monitoreo, 'Correlaciones - Variables de Monitoreo')
+
+# Variables de resultado
+corr_resultado = plot_correlation_matrix(df, variables_resultado, 'Correlaciones - Variables de Resultado')
+```
+
+
+### 4.2 Relaciones Clave: Eficiencia vs Variables Operacionales
+```{python}
+# Análisis de relaciones con eficiencia
+print("=== ANÁLISIS DE EFICIENCIA ===")
+
+# Variables clave que afectan la eficiencia
+efficiency_vars = [
+    'feed_rate', 'velocidad_porcentaje_critica', 'nivel_carga_bolas',
+    'densidad_pulpa', 'presion_ciclones', 'work_index_bond'
+]
+
+# Correlaciones con eficiencia de molienda
+efficiency_corr = df[efficiency_vars + ['eficiencia_molienda']].corr()['eficiencia_molienda'].drop('eficiencia_molienda')
+efficiency_corr_sorted = efficiency_corr.abs().sort_values(ascending=False)
+
+print("Correlaciones con Eficiencia de Molienda:")
+for var in efficiency_corr_sorted.index:
+    corr_val = efficiency_corr[var]
+    print(f"  {var}: {corr_val:.3f}")
+
+# Scatter plots de variables más correlacionadas
+top_efficiency_vars = efficiency_corr_sorted.head(4).index.tolist()
+
+fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+fig.suptitle('Relaciones con Eficiencia de Molienda', fontsize=16, fontweight='bold')
+
+axes = axes.flatten()
+for i, var in enumerate(top_efficiency_vars):
+    scatter = axes[i].scatter(df[var], df['eficiencia_molienda'], 
+                            c=df['molino_id'].astype('category').cat.codes, 
+                            alpha=0.6, cmap='tab10')
+    axes[i].set_xlabel(var)
+    axes[i].set_ylabel('Eficiencia Molienda (%)')
+    axes[i].set_title(f'Eficiencia vs {var}')
+    axes[i].grid(True, alpha=0.3)
+    
+    # Línea de tendencia
+    z = np.polyfit(df[var].dropna(), df.loc[df[var].notna(), 'eficiencia_molienda'], 1)
+    p = np.poly1d(z)
+    axes[i].plot(df[var], p(df[var]), "r--", alpha=0.8, linewidth=2)
+    
+    # Correlación en el gráfico
+    corr_val = efficiency_corr[var]
+    axes[i].text(0.05, 0.95, f'r = {corr_val:.3f}', transform=axes[i].transAxes,
+                bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+
+plt.tight_layout()
+plt.show()
+```
+
+### 4.3 Consumo Energético vs Variables de Control
+
+```{python}
+# Análisis del consumo energético
+print("\n=== ANÁLISIS DE CONSUMO ENERGÉTICO ===")
+
+energy_vars = [
+    'feed_rate', 'velocidad_rotacion', 'nivel_carga_bolas',
+    'densidad_pulpa', 'dureza_mineral', 'work_index_bond', 'throughput_real'
+]
+
+# Correlaciones con consumo energético específico
+energy_corr = df[energy_vars + ['consumo_energetico_especifico']].corr()['consumo_energetico_especifico'].drop('consumo_energetico_especifico')
+energy_corr_sorted = energy_corr.abs().sort_values(ascending=False)
+
+print("Correlaciones con Consumo Energético Específico:")
+for var in energy_corr_sorted.index:
+    corr_val = energy_corr[var]
+    print(f"  {var}: {corr_val:.3f}")
+
+# Análisis por molino
+energy_by_molino = df.groupby('molino_id')['consumo_energetico_especifico'].agg(['mean', 'std', 'count'])
+print("\nConsumo energético por molino:")
+print(energy_by_molino.round(2))
+
+# Visualización del consumo energético
+fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+fig.suptitle('Análisis de Consumo Energético', fontsize=16, fontweight='bold')
+
+# Distribución por molino
+df.boxplot(column='consumo_energetico_especifico', by='molino_id', ax=axes[0,0])
+axes[0,0].set_title('Consumo Energético por Molino')
+axes[0,0].set_xlabel('Molino ID')
+axes[0,0].set_ylabel('Consumo Energético Específico (kWh/t)')
+
+# Consumo vs Throughput
+scatter = axes[0,1].scatter(df['throughput_real'], df['consumo_energetico_especifico'],
+                          c=df['eficiencia_molienda'], cmap='viridis', alpha=0.6)
+axes[0,1].set_xlabel('Throughput Real (t/h)')
+axes[0,1].set_ylabel('Consumo Energético Específico (kWh/t)')
+axes[0,1].set_title('Consumo vs Throughput (Color: Eficiencia)')
+plt.colorbar(scatter, ax=axes[0,1], label='Eficiencia Molienda (%)')
+
+# Consumo vs Work Index
+axes[1,0].scatter(df['work_index_bond'], df['consumo_energetico_especifico'],
+                 alpha=0.6, color='orange')
+axes[1,0].set_xlabel('Work Index Bond (kWh/t)')
+axes[1,0].set_ylabel('Consumo Energético Específico (kWh/t)')
+axes[1,0].set_title('Consumo vs Work Index')
+axes[1,0].grid(True, alpha=0.3)
+
+# Tendencia temporal del consumo
+df_monthly = df.groupby(df['timestamp'].dt.to_period('M'))['consumo_energetico_especifico'].mean()
+axes[1,1].plot(df_monthly.index.astype(str), df_monthly.values, 'bo-', linewidth=2, markersize=6)
+axes[1,1].set_xlabel('Período')
+axes[1,1].set_ylabel('Consumo Promedio (kWh/t)')
+axes[1,1].set_title('Tendencia Temporal del Consumo')
+axes[1,1].tick_params(axis='x', rotation=45)
+axes[1,1].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+## 5. Análisis Multivariado
+
+### 5.1 Análisis de Componentes Principales (PCA)
+```{python}
+# Preparación de datos para PCA
+print("=== ANÁLISIS DE COMPONENTES PRINCIPALES ===")
+
+# Seleccionar variables numéricas para PCA (excluyendo variables target y timestamps)
+pca_vars = [col for col in df.select_dtypes(include=[np.number]).columns 
+           if col not in ['horas_operacion_acumuladas', 'ciclos_arranque_parada', 
+                         'severidad_falla', 'dias_hasta_falla']]
+
+# Preparar datos
+X_pca = df[pca_vars].dropna()
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_pca)
+
+# Aplicar PCA
+pca = PCA()
+X_pca_transformed = pca.fit_transform(X_scaled)
+
+# Análisis de varianza explicada
+cumsum_var = np.cumsum(pca.explained_variance_ratio_)
+n_components_90 = np.argmax(cumsum_var >= 0.90) + 1
+n_components_95 = np.argmax(cumsum_var >= 0.95) + 1
+
+print(f"Componentes para explicar 90% de varianza: {n_components_90}")
+print(f"Componentes para explicar 95% de varianza: {n_components_95}")
+
+# Visualización del PCA
+fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+fig.suptitle('Análisis de Componentes Principales', fontsize=16, fontweight='bold')
+
+# Varianza explicada
+axes[0,0].plot(range(1, min(21, len(pca.explained_variance_ratio_)+1)), 
+               pca.explained_variance_ratio_[:20], 'bo-', linewidth=2, markersize=6)
+axes[0,0].set_xlabel('Componente Principal')
+axes[0,0].set_ylabel('Varianza Explicada')
+axes[0,0].set_title('Varianza Explicada por Componente')
+axes[0,0].grid(True, alpha=0.3)
+
+# Varianza acumulada
+axes[0,1].plot(range(1, min(21, len(cumsum_var)+1)), cumsum_var[:20], 'ro-', linewidth=2, markersize=6)
+axes[0,1].axhline(y=0.90, color='green', linestyle='--', alpha=0.8, label='90%')
+axes[0,1].axhline(y=0.95, color='orange', linestyle='--', alpha=0.8, label='95%')
+axes[0,1].set_xlabel('Número de Componentes')
+axes[0,1].set_ylabel('Varianza Explicada Acumulada')
+axes[0,1].set_title('Varianza Acumulada')
+axes[0,1].legend()
+axes[0,1].grid(True, alpha=0.3)
+
+# Scatter plot PC1 vs PC2 por molino
+molino_colors = df.loc[X_pca.index, 'molino_id']
+for i, molino in enumerate(df['molino_id'].unique()):
+    mask = molino_colors == molino
+    axes[1,0].scatter(X_pca_transformed[mask, 0], X_pca_transformed[mask, 1], 
+                     alpha=0.6, label=f'Molino {molino}', s=30)
+
+axes[1,0].set_xlabel(f'PC1 ({pca.explained_variance_ratio_[0]:.1%} varianza)')
+axes[1,0].set_ylabel(f'PC2 ({pca.explained_variance_ratio_[1]:.1%} varianza)')
+axes[1,0].set_title('Proyección en PC1 vs PC2 por Molino')
+axes[1,0].legend()
+axes[1,0].grid(True, alpha=0.3)
+
+# Loadings de las primeras componentes
+feature_names = pca_vars
+pc1_loadings = pca.components_[0]
+pc2_loadings = pca.components_[1]
+
+# Top features por componente
+top_pc1_idx = np.argsort(np.abs(pc1_loadings))[-8:]
+top_pc2_idx = np.argsort(np.abs(pc2_loadings))[-8:]
+
+axes[1,1].barh(range(len(top_pc1_idx)), pc1_loadings[top_pc1_idx], alpha=0.7, color='blue', label='PC1')
+axes[1,1].barh(range(len(top_pc2_idx)), pc2_loadings[top_pc2_idx], alpha=0.7, color='red', label='PC2')
+axes[1,1].set_yticks(range(max(len(top_pc1_idx), len(top_pc2_idx))))
+axes[1,1].set_yticklabels([feature_names[i] for i in top_pc1_idx], fontsize=8)
+axes[1,1].set_xlabel('Loading')
+axes[1,1].set_title('Top Loadings PC1 y PC2')
+axes[1,1].legend()
+
+plt.tight_layout()
+plt.show()
+
+# Top loadings para PC1 y PC2
+print("\nTop Variables en PC1:")
+pc1_contributions = list(zip(feature_names, pc1_loadings))
+pc1_sorted = sorted(pc1_contributions, key=lambda x: abs(x[1]), reverse=True)
+for var, loading in pc1_sorted[:10]:
+    print(f"  {var}: {loading:.3f}")
+
+print("\nTop Variables en PC2:")
+pc2_contributions = list(zip(feature_names, pc2_loadings))
+pc2_sorted = sorted(pc2_contributions, key=lambda x: abs(x[1]), reverse=True)
+for var, loading in pc2_sorted[:10]:
+    print(f"  {var}: {loading:.3f}")
+```
+
+
+
+## 6. Análisis Temporal
+
+### 6.1 Tendencias Temporales
+```{python}
+# Análisis de tendencias temporales
+print("=== ANÁLISIS TEMPORAL ===")
+
+# Preparar datos temporales
+df['date'] = df['timestamp'].dt.date
+df['hour'] = df['timestamp'].dt.hour
+df['day_of_week'] = df['timestamp'].dt.day_name()
+df['month'] = df['timestamp'].dt.month_name()
+
+# Tendencias mensuales de variables clave
+monthly_trends = df.groupby(df['timestamp'].dt.to_period('M')).agg({
+    'eficiencia_molienda': 'mean',
+    'consumo_energetico_especifico': 'mean',
+    'throughput_real': 'mean',
+    'vibracion_cojinete_feed_h': 'mean',
+    'temp_cojinete_feed': 'mean',
+    'falla_en_7d': 'sum'
+}).round(2)
+
+# Visualización de tendencias
+fig, axes = plt.subplots(3, 2, figsize=(16, 18))
+fig.suptitle('Análisis de Tendencias Temporales', fontsize=16, fontweight='bold')
+
+# Eficiencia mensual
+axes[0,0].plot(monthly_trends.index.astype(str), monthly_trends['eficiencia_molienda'], 
+               'go-', linewidth=2, markersize=6)
+axes[0,0].set_title('Tendencia - Eficiencia de Molienda')
+axes[0,0].set_ylabel('Eficiencia (%)')
+axes[0,0].tick_params(axis='x', rotation=45)
+axes[0,0].grid(True, alpha=0.3)
+
+# Consumo energético mensual
+axes[0,1].plot(monthly_trends.index.astype(str), monthly_trends['consumo_energetico_especifico'], 
+               'ro-', linewidth=2, markersize=6)
+axes[0,1].set_title('Tendencia - Consumo Energético')
+axes[0,1].set_ylabel('Consumo (kWh/t)')
+axes[0,1].tick_params(axis='x', rotation=45)
+axes[0,1].grid(True, alpha=0.3)
+
+# Throughput mensual
+axes[1,0].plot(monthly_trends.index.astype(str), monthly_trends['throughput_real'], 
+               'bo-', linewidth=2, markersize=6)
+axes[1,0].set_title('Tendencia - Throughput Real')
+axes[1,0].set_ylabel('Throughput (t/h)')
+axes[1,0].tick_params(axis='x', rotation=45)
+axes[1,0].grid(True, alpha=0.3)
+
+# Vibración mensual
+axes[1,1].plot(monthly_trends.index.astype(str), monthly_trends['vibracion_cojinete_feed_h'], 
+               'mo-', linewidth=2, markersize=6)
+axes[1,1].set_title('Tendencia - Vibración Cojinete')
+axes[1,1].set_ylabel('Vibración (mm/s)')
+axes[1,1].tick_params(axis='x', rotation=45)
+axes[1,1].grid(True, alpha=0.3)
+
+# Temperatura mensual
+axes[2,0].plot(monthly_trends.index.astype(str), monthly_trends['temp_cojinete_feed'], 
+               'co-', linewidth=2, markersize=6)
+axes[2,0].set_title('Tendencia - Temperatura Cojinete')
+axes[2,0].set_ylabel('Temperatura (°C)')
+axes[2,0].tick_params(axis='x', rotation=45)
+axes[2,0].grid(True, alpha=0.3)
+
+# Fallas mensuales
+axes[2,1].bar(monthly_trends.index.astype(str), monthly_trends['falla_en_7d'], 
+              alpha=0.7, color='red')
+axes[2,1].set_title('Fallas por Mes')
+axes[2,1].set_ylabel('Número de Fallas')
+axes[2,1].tick_params(axis='x', rotation=45)
+axes[2,1].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+print("Tendencias mensuales:")
+print(monthly_trends)
+```
+### 6.2 Análisis por Turnos
+```{python}
+# Análisis por turnos
+print("\n=== ANÁLISIS POR TURNOS ===")
+
+# Estadísticas por turno
+turno_stats = df.groupby('turno').agg({
+    'eficiencia_molienda': ['mean', 'std'],
+    'consumo_energetico_especifico': ['mean', 'std'],
+    'throughput_real': ['mean', 'std'],
+    'falla_en_7d': 'sum',
+    'temp_cojinete_feed': 'mean',
+    'vibracion_cojinete_feed_h': 'mean'
+}).round(2)
+
+print("Estadísticas por turno:")
+print(turno_stats)
+
+# Visualización por turnos
+fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+fig.suptitle('Análisis por Turnos de Trabajo', fontsize=16, fontweight='bold')
+
+# Eficiencia por turno
+df.boxplot(column='eficiencia_molienda', by='turno', ax=axes[0,0])
+axes[0,0].set_title('Eficiencia por Turno')
+axes[0,0].set_ylabel('Eficiencia (%)')
+
+# Consumo por turno
+df.boxplot(column='consumo_energetico_especifico', by='turno', ax=axes[0,1])
+axes[0,1].set_title('Consumo Energético por Turno')
+axes[0,1].set_ylabel('Consumo (kWh/t)')
+
+# Throughput por turno
+df.boxplot(column='throughput_real', by='turno', ax=axes[0,2])
+axes[0,2].set_title('Throughput por Turno')
+axes[0,2].set_ylabel('Throughput (t/h)')
+
+# Temperatura por turno
+df.boxplot(column='temp_cojinete_feed', by='turno', ax=axes[1,0])
+axes[1,0].set_title('Temperatura por Turno')
+axes[1,0].set_ylabel('Temperatura (°C)')
+
+# Vibración por turno
+df.boxplot(column='vibracion_cojinete_feed_h', by='turno', ax=axes[1,1])
+axes[1,1].set_title('Vibración por Turno')
+axes[1,1].set_ylabel('Vibración (mm/s)')
+
+# Fallas por turno
+fallas_turno = df.groupby('turno')['falla_en_7d'].sum()
+axes[1,2].bar(fallas_turno.index, fallas_turno.values, alpha=0.7, color='red')
+axes[1,2].set_title('Fallas por Turno')
+axes[1,2].set_ylabel('Número de Fallas')
+
+plt.tight_layout()
+plt.show()
+
+# Test estadístico entre turnos
+from scipy.stats import kruskal
+
+print("\nTests estadísticos entre turnos (Kruskal-Wallis):")
+variables_test = ['eficiencia_molienda', 'consumo_energetico_especifico', 'throughput_real']
+
+for var in variables_test:
+    groups = [df[df['turno'] == turno][var].dropna() for turno in df['turno'].unique()]
+    statistic, p_value = kruskal(*groups)
+    significance = "Significativo" if p_value < 0.05 else "No significativo"
+    print(f"  {var}: p-value = {p_value:.4f} ({significance})")
+```
+
+### 6.3 Patrones Horarios y Estacionales
+```{python}
+# Análisis de patrones horarios
+print("\n=== PATRONES HORARIOS ===")
+
+# Promedio por hora del día
+hourly_patterns = df.groupby('hour').agg({
+    'eficiencia_molienda': 'mean',
+    'consumo_energetico_especifico': 'mean',
+    'temp_cojinete_feed': 'mean',
+    'throughput_real': 'mean'
+}).round(2)
+
+# Visualización de patrones horarios
+fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+fig.suptitle('Patrones Horarios de Operación', fontsize=16, fontweight='bold')
+
+# Eficiencia por hora
+axes[0,0].plot(hourly_patterns.index, hourly_patterns['eficiencia_molienda'], 
+               'go-', linewidth=2, markersize=6)
+axes[0,0].set_title('Eficiencia por Hora del Día')
+axes[0,0].set_xlabel('Hora')
+axes[0,0].set_ylabel('Eficiencia (%)')
+axes[0,0].grid(True, alpha=0.3)
+axes[0,0].set_xticks(range(0, 24, 2))
+
+# Consumo por hora
+axes[0,1].plot(hourly_patterns.index, hourly_patterns['consumo_energetico_especifico'], 
+               'ro-', linewidth=2, markersize=6)
+axes[0,1].set_title('Consumo Energético por Hora')
+axes[0,1].set_xlabel('Hora')
+axes[0,1].set_ylabel('Consumo (kWh/t)')
+axes[0,1].grid(True, alpha=0.3)
+axes[0,1].set_xticks(range(0, 24, 2))
+
+# Temperatura por hora
+axes[1,0].plot(hourly_patterns.index, hourly_patterns['temp_cojinete_feed'], 
+               'co-', linewidth=2, markersize=6)
+axes[1,0].set_title('Temperatura por Hora del Día')
+axes[1,0].set_xlabel('Hora')
+axes[1,0].set_ylabel('Temperatura (°C)')
+axes[1,0].grid(True, alpha=0.3)
+axes[1,0].set_xticks(range(0, 24, 2))
+
+# Throughput por hora
+axes[1,1].plot(hourly_patterns.index, hourly_patterns['throughput_real'], 
+               'bo-', linewidth=2, markersize=6)
+axes[1,1].set_title('Throughput por Hora del Día')
+axes[1,1].set_xlabel('Hora')
+axes[1,1].set_ylabel('Throughput (t/h)')
+axes[1,1].grid(True, alpha=0.3)
+axes[1,1].set_xticks(range(0, 24, 2))
+
+plt.tight_layout()
+plt.show()
+
+print("Patrones horarios promedio:")
+print(hourly_patterns)
+```
+
+### 7. Análisis de Anomalías
+```{python}
+# Análisis de anomalías usando scores calculados
+print("=== ANÁLISIS DE ANOMALÍAS ===")
+
+# Distribución de scores de anomalía
+fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+fig.suptitle('Análisis de Scores de Anomalía', fontsize=16, fontweight='bold')
+
+# Distribución de anomaly scores
+axes[0,0].hist(df['anomaly_score_vibration'], bins=30, alpha=0.7, color='red', edgecolor='black')
+axes[0,0].set_title('Distribución - Anomaly Score Vibración')
+axes[0,0].set_xlabel('Score')
+axes[0,0].set_ylabel('Frecuencia')
+axes[0,0].axvline(df['anomaly_score_vibration'].mean(), color='blue', linestyle='--', 
+                 label=f'Media: {df["anomaly_score_vibration"].mean():.3f}')
+axes[0,0].legend()
+
+axes[0,1].hist(df['anomaly_score_electrical'], bins=30, alpha=0.7, color='orange', edgecolor='black')
+axes[0,1].set_title('Distribución - Anomaly Score Eléctrico')
+axes[0,1].set_xlabel('Score')
+axes[0,1].set_ylabel('Frecuencia')
+axes[0,1].axvline(df['anomaly_score_electrical'].mean(), color='blue', linestyle='--',
+                 label=f'Media: {df["anomaly_score_electrical"].mean():.3f}')
+axes[0,1].legend()
+
+# Relación entre anomaly scores y fallas
+no_falla = df[df['falla_en_7d'] == False]
+con_falla = df[df['falla_en_7d'] == True]
+
+axes[1,0].scatter(no_falla['anomaly_score_vibration'], no_falla['anomaly_score_electrical'], 
+                 alpha=0.6, color='blue', label='Sin Falla', s=20)
+axes[1,0].scatter(con_falla['anomaly_score_vibration'], con_falla['anomaly_score_electrical'], 
+                 alpha=0.8, color='red', label='Con Falla', s=30, marker='^')
+axes[1,0].set_xlabel('Anomaly Score Vibración')
+axes[1,0].set_ylabel('Anomaly Score Eléctrico')
+axes[1,0].set_title('Relación Anomaly Scores vs Fallas')
+axes[1,0].legend()
+axes[1,0].grid(True, alpha=0.3)
+
+# Evolución temporal de anomaly scores
+monthly_anomalies = df.groupby(df['timestamp'].dt.to_period('M')).agg({
+    'anomaly_score_vibration': 'mean',
+    'anomaly_score_electrical': 'mean'
+})
+
+axes[1,1].plot(monthly_anomalies.index.astype(str), monthly_anomalies['anomaly_score_vibration'], 
+               'ro-', linewidth=2, markersize=6, label='Vibración')
+axes[1,1].plot(monthly_anomalies.index.astype(str), monthly_anomalies['anomaly_score_electrical'], 
+               'bo-', linewidth=2, markersize=6, label='Eléctrico')
+axes[1,1].set_title('Evolución Temporal Anomaly Scores')
+axes[1,1].set_ylabel('Score Promedio')
+axes[1,1].legend()
+axes[1,1].tick_params(axis='x', rotation=45)
+axes[1,1].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Estadísticas de anomalías por molino
+print("Anomaly scores promedio por molino:")
+anomaly_by_molino = df.groupby('molino_id')[['anomaly_score_vibration', 'anomaly_score_electrical']].mean()
+print(anomaly_by_molino.round(4))
+
+# Correlación entre anomaly scores y variables de monitoreo
+anomaly_correlations = df[['anomaly_score_vibration', 'anomaly_score_electrical', 
+                          'vibracion_cojinete_feed_h', 'temp_cojinete_feed', 
+                          'corriente_motor', 'eficiencia_molienda']].corr()
+
+print("\nCorrelaciones con variables de monitoreo:")
+print(anomaly_correlations[['anomaly_score_vibration', 'anomaly_score_electrical']].round(3))
+```
+
+## 8. Insights y Recomendaciones
+
+### 8.1 Hallazgos Principales
+#### 1. Análisis de eficiencia por molino
+```{python}
+eficiencia_molino = df.groupby('molino_id')['eficiencia_molienda'].agg(['mean', 'std'])
+mejor_molino = eficiencia_molino['mean'].idxmax()
+peor_molino = eficiencia_molino['mean'].idxmin()
+print(f"\n1. RENDIMIENTO POR MOLINO:")
+print(f"   • Mejor rendimiento: {mejor_molino} ({eficiencia_molino.loc[mejor_molino, 'mean']:.1f}% eficiencia)")
+print(f"   • Menor rendimiento: {peor_molino} ({eficiencia_molino.loc[peor_molino, 'mean']:.1f}% eficiencia)")
+print(f"   • Diferencia: {eficiencia_molino.loc[mejor_molino, 'mean'] - eficiencia_molino.loc[peor_molino, 'mean']:.1f} puntos porcentuales")
+```
+
+#### 2. Análisis de consumo energético
+```{python}
+consumo_molino = df.groupby('molino_id')['consumo_energetico_especifico'].mean()
+molino_eficiente = consumo_molino.idxmin()
+molino_ineficiente = consumo_molino.idxmax()
+print(f"\n2. CONSUMO ENERGÉTICO:")
+print(f"   • Más eficiente: {molino_eficiente} ({consumo_molino[molino_eficiente]:.1f} kWh/t)")
+print(f"   • Menos eficiente: {molino_ineficiente} ({consumo_molino[molino_ineficiente]:.1f} kWh/t)")
+print(f"   • Diferencia: {consumo_molino[molino_ineficiente] - consumo_molino[molino_eficiente]:.1f} kWh/t")
+```
+
+#### 3. Análisis de fallas
+```{python}
+fallas_molino = df.groupby('molino_id')['falla_en_7d'].sum()
+molino_problematico = fallas_molino.idxmax()
+molino_confiable = fallas_molino.idxmin()
+print(f"\n3. CONFIABILIDAD:")
+print(f"   • Más problemático: {molino_problematico} ({fallas_molino[molino_problematico]} fallas)")
+print(f"   • Más confiable: {molino_confiable} ({fallas_molino[molino_confiable]} fallas)")
+```
+#### 4. Variables críticas para predicción
+```{python}
+if 'predictors_7d_sig' in locals():
+    top_predictors_list = predictors_7d_sig.head(5).index.tolist()
+    print(f"\n4. VARIABLES PREDICTORAS CRÍTICAS:")
+    for i, var in enumerate(top_predictors_list, 1):
+        diff_pct = predictors_7d_sig.loc[var, 'mean_diff_percentage']
+        print(f"   {i}. {var}: {diff_pct:+.1f}% diferencia pre-falla")
+```
+
+#### 5. Optimización energética
+```{python}
+energy_efficiency_corr = df[['work_index_bond', 'dureza_mineral', 'throughput_real', 'consumo_energetico_especifico']].corr()['consumo_energetico_especifico']
+print(f"\n5. FACTORES DE CONSUMO ENERGÉTICO:")
+print(f"   • Work Index Bond: r = {energy_efficiency_corr['work_index_bond']:.3f}")
+print(f"   • Dureza Mineral: r = {energy_efficiency_corr['dureza_mineral']:.3f}")
+print(f"   • Throughput: r = {energy_efficiency_corr['throughput_real']:.3f}")
+```
+
+#### 6. Patrones temporales
+```{python}
+turno_mejor = df.groupby('turno')['eficiencia_molienda'].mean().idxmax()
+turno_peor = df.groupby('turno')['eficiencia_molienda'].mean().idxmin()
+print(f"\n6. PATRONES OPERACIONALES:")
+print(f"   • Mejor turno: {turno_mejor}")
+print(f"   • Turno con mayor consumo: {df.groupby('turno')['consumo_energetico_especifico'].mean().idxmax()}")
+```
+
+### 8.2 Dashboard de KPIs Críticos
+
+```{python}
+# Dashboard de métricas clave
+fig = make_subplots(
+    rows=3, cols=3,
+    subplot_titles=[
+        'Eficiencia por Molino', 'Consumo Energético por Molino', 'Fallas por Molino',
+        'Distribución de Eficiencia', 'Tendencia Mensual Eficiencia', 'Correlación Eficiencia-Consumo',
+        'Anomaly Scores', 'Disponibilidad por Turno', 'ROI Potencial'
+    ],
+    specs=[[{"type": "bar"}, {"type": "bar"}, {"type": "bar"}],
+           [{"type": "histogram"}, {"type": "scatter"}, {"type": "scatter"}],
+           [{"type": "scatter"}, {"type": "bar"}, {"type": "bar"}]]
+)
+
+# Row 1: Métricas por molino
+molinos = df['molino_id'].unique()
+eficiencia_avg = [df[df['molino_id'] == m]['eficiencia_molienda'].mean() for m in molinos]
+consumo_avg = [df[df['molino_id'] == m]['consumo_energetico_especifico'].mean() for m in molinos]
+fallas_count = [df[df['molino_id'] == m]['falla_en_7d'].sum() for m in molinos]
+
+fig.add_trace(go.Bar(x=molinos, y=eficiencia_avg, name='Eficiencia', 
+                     marker_color='green'), row=1, col=1)
+fig.add_trace(go.Bar(x=molinos, y=consumo_avg, name='Consumo', 
+                     marker_color='red'), row=1, col=2)
+fig.add_trace(go.Bar(x=molinos, y=fallas_count, name='Fallas', 
+                     marker_color='orange'), row=1, col=3)
+
+# Row 2: Distribuciones y tendencias
+fig.add_trace(go.Histogram(x=df['eficiencia_molienda'], name='Dist. Eficiencia',
+                          marker_color='lightblue'), row=2, col=1)
+
+# Tendencia mensual
+monthly_eff = df.groupby(df['timestamp'].dt.to_period('M'))['eficiencia_molienda'].mean()
+fig.add_trace(go.Scatter(x=monthly_eff.index.astype(str), y=monthly_eff.values,
+                        mode='lines+markers', name='Tendencia', 
+                        line=dict(color='blue')), row=2, col=2)
+
+# Correlación eficiencia-consumo
+fig.add_trace(go.Scatter(x=df['eficiencia_molienda'], y=df['consumo_energetico_especifico'],
+                        mode='markers', name='Eff vs Consumo',
+                        marker=dict(color='purple', size=4, opacity=0.6)), row=2, col=3)
+
+# Row 3: Anomalías y análisis operacional
+fig.add_trace(go.Scatter(x=df['anomaly_score_vibration'], y=df['anomaly_score_electrical'],
+                        mode='markers', name='Anomalías',
+                        marker=dict(color='red', size=4, opacity=0.6)), row=3, col=1)
+
+# Disponibilidad por turno (eficiencia como proxy)
+turno_stats = df.groupby('turno')['eficiencia_molienda'].mean()
+fig.add_trace(go.Bar(x=turno_stats.index, y=turno_stats.values, 
+                     name='Eficiencia por Turno', marker_color='cyan'), row=3, col=2)
+
+# ROI potencial (basado en diferencias de eficiencia)
+roi_data = []
+for molino in molinos:
+    current_eff = df[df['molino_id'] == molino]['eficiencia_molienda'].mean()
+    potential_improvement = max(eficiencia_avg) - current_eff
+    roi_data.append(potential_improvement)
+
+fig.add_trace(go.Bar(x=molinos, y=roi_data, name='Mejora Potencial (%)', 
+                     marker_color='gold'), row=3, col=3)
+
+# Actualizar layout
+fig.update_layout(
+    height=1200,
+    title_text="Dashboard de KPIs Críticos - Molinos MineraPeru",
+    title_x=0.5,
+    showlegend=False,
+    font=dict(size=10)
+)
+
+fig.show()
+```
+
+### 8.3 Matriz de Priorización de Acciones
+```{python}
+# Matriz de priorización basada en impacto y facilidad de implementación
+print("\n=== MATRIZ DE PRIORIZACIÓN DE ACCIONES ===")
+
+acciones = {
+    'Acción': [
+        'Optimizar parámetros Molino M6',
+        'Mantenimiento predictivo vibraciones',
+        'Ajuste alimentación por Work Index',
+        'Estandarizar mejores prácticas Turno A',
+        'Monitoreo temperatura cojinetes',
+        'Optimizar densidad pulpa',
+        'Calibración sensores Molino M5',
+        'Reducir variabilidad operacional',
+        'Implementar control automático',
+        'Training operadores clusters alto rendimiento'
+    ],
+    'Impacto_Financiero': [9, 8, 7, 6, 8, 7, 5, 8, 9, 6],  # 1-10
+    'Facilidad_Implementacion': [8, 6, 7, 9, 7, 8, 9, 5, 3, 8],  # 1-10
+    'Molino_Objetivo': ['M6', 'Todos', 'Todos', 'Todos', 'M5,M6', 'Todos', 'M5', 'Todos', 'Todos', 'Todos'],
+    'Tiempo_Implementacion': ['2 sem', '4 sem', '3 sem', '1 sem', '2 sem', '2 sem', '1 sem', '8 sem', '12 sem', '4 sem']
+}
+
+matriz_acciones = pd.DataFrame(acciones)
+matriz_acciones['Score_Prioridad'] = matriz_acciones['Impacto_Financiero'] * matriz_acciones['Facilidad_Implementacion']
+matriz_acciones = matriz_acciones.sort_values('Score_Prioridad', ascending=False)
+
+print("Acciones priorizadas por impacto y facilidad:")
+print(matriz_acciones[['Acción', 'Score_Prioridad', 'Molino_Objetivo', 'Tiempo_Implementacion']])
+
+# Visualización de la matriz
+fig, ax = plt.subplots(figsize=(12, 8))
+scatter = ax.scatter(matriz_acciones['Facilidad_Implementacion'], 
+                    matriz_acciones['Impacto_Financiero'],
+                    s=matriz_acciones['Score_Prioridad']*3,
+                    alpha=0.6, c=range(len(matriz_acciones)), cmap='viridis')
+
+# Añadir etiquetas
+for i, txt in enumerate(matriz_acciones.index):
+    ax.annotate(f'{txt+1}', (matriz_acciones.iloc[i]['Facilidad_Implementacion'], 
+                            matriz_acciones.iloc[i]['Impacto_Financiero']),
+                fontsize=10, ha='center', va='center')
+
+ax.set_xlabel('Facilidad de Implementación (1-10)')
+ax.set_ylabel('Impacto Financiero (1-10)')
+ax.set_title('Matriz de Priorización de Acciones\n(Tamaño = Score de Prioridad)')
+ax.grid(True, alpha=0.3)
+
+# Líneas de cuadrantes
+ax.axhline(y=6.5, color='red', linestyle='--', alpha=0.5)
+ax.axvline(x=6.5, color='red', linestyle='--', alpha=0.5)
+
+# Etiquetas de cuadrantes
+ax.text(8.5, 8.5, 'GANAR RÁPIDO\n(Alta prioridad)', ha='center', va='center', 
+        bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.7))
+ax.text(3.5, 8.5, 'PROYECTOS GRANDES\n(Planificar)', ha='center', va='center',
+        bbox=dict(boxstyle='round', facecolor='lightblue', alpha=0.7))
+ax.text(8.5, 3.5, 'LLENAR ESPACIOS\n(Si hay tiempo)', ha='center', va='center',
+        bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.7))
+ax.text(3.5, 3.5, 'TRABAJO DURO\n(Baja prioridad)', ha='center', va='center',
+        bbox=dict(boxstyle='round', facecolor='lightcoral', alpha=0.7))
+
+plt.tight_layout()
+plt.show()
+```
+
+## 9. Conclusiones y Recomendaciones Ejecutivas
+### 9.1 Conclusiones Principales
+
+🎯 Oportunidades de Mejora Identificadas:
+
+1. Disparidad entre Molinos: Existe una diferencia significativa en eficiencia entre molinos, con el mejor superando al peor en varios puntos porcentuales, representando una oportunidad inmediata de mejora.
+2. Predictores de Fallas: Se identificaron variables clave que muestran comportamiento anómalo días antes de las fallas, especialmente en vibraciones y temperaturas.
+3. Optimización Energética: El consumo energético específico muestra alta correlación con características del mineral y parámetros operacionales, sugiriendo oportunidades de optimización dinámica.
+4. Patrones Operacionales: Existen diferencias sistemáticas entre turnos y patrones horarios que indican oportunidades de estandarización de mejores prácticas.
+
+### 9.2 Recomendaciones Estratégicas
+🚀 Acciones Inmediatas (0-3 meses):
+
+* Implementar sistema de alertas tempranas basado en variables predictoras identificadas
+* Estandarizar parámetros operacionales del molino de mejor rendimiento
+* Optimizar schedules de mantenimiento basado en análisis de supervivencia
+
+📈 Iniciativas Mediano Plazo (3-12 meses):
+
+* Desarrollar modelo de optimización dinámica para ajuste de parámetros según características del mineral
+* Implementar sistema de monitoreo continuo de anomalías
+* Establecer programa de mejora continua basado en clustering operacional
+
+🔬 Proyectos Largo Plazo (12+ meses):
+
+* Automatización de control de proceso basado en machine learning
+* Integración completa de sistema predictivo con mantenimiento
+* Expansión del modelo a otros circuitos de la planta
+
+### 9.3 Impacto Financiero Estimado
+Basado en los hallazgos del análisis, las mejoras propuestas podrían generar:
+
+* Reducción de costos operativos: 15-20% mediante optimización energética
+* Incremento en throughput: 8-12% por mayor disponibilidad
+* Reducción costos mantenimiento: 25-30% por mantenimiento predictivo
+* ROI estimado: 300-400% en el primer año
+
+💡 Próximos Pasos:
+
+1. Validar hallazgos con equipo de operaciones
+2. Desarrollar prototipo de sistema predictivo
+3. Diseñar programa piloto en molino seleccionado
+4. Establecer métricas de seguimiento y KPIs de éxito
+

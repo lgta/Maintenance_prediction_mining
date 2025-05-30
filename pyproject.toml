@@ -1,0 +1,20 @@
+[project]
+name = "breit-mining-case"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "ipykernel>=6.29.5",
+    "matplotlib>=3.10.3",
+    "nbclient>=0.10.2",
+    "nbformat>=5.10.4",
+    "numpy>=2.2.6",
+    "pandas>=2.2.3",
+    "pip>=25.1.1",
+    "plotly>=6.1.2",
+    "pyyaml>=6.0.2",
+    "scikit-learn>=1.6.1",
+    "scipy>=1.15.3",
+    "seaborn>=0.13.2",
+]
